@@ -129,7 +129,7 @@ nav a:hover,nav a.active{color:var(--maroon);}
 .prod-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.2;}
 .prod-price-row{display:flex;align-items:center;gap:8px;}
 .prod-price{color:var(--maroon);font-size:15px;font-weight:700;}
-.prod-old{color:var(--text4);text-decoration:line-through;font-size:12px;}
+.prod-old{color:#777;text-decoration:line-through;font-size:12px;font-weight:500;}
 .prod-colors{display:flex;gap:5px;margin-top:8px;}
 .color-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--border2);}
 
@@ -142,14 +142,14 @@ nav a:hover,nav a.active{color:var(--maroon);}
 .gallery-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:140px;font-weight:700;opacity:0.1;color:var(--gold);}
 .gallery-thumbs{display:flex;gap:8px;}
 .gallery-thumb{width:72px;height:90px;background:var(--surface2);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color 0.2s;flex-shrink:0;}
-.gallery-thumb:hover,.gallery-thumb.active{border-color:var(--gold);}
+.gallery-thumb:hover,.gallery-thumb.active{border-color:var(--maroon);}
 .gallery-thumb img{width:100%;height:100%;object-fit:cover;}
 .gallery-thumb-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:22px;font-family:'Cormorant Garamond',serif;opacity:0.25;color:var(--gold);}
 .detail-info{}
 .det-eyebrow{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
 .det-name{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;line-height:1.05;margin-bottom:8px;letter-spacing:-1px;}
-.det-price{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--gold);margin-bottom:8px;}
-.det-old{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--text4);text-decoration:line-through;margin-left:10px;}
+.det-price{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--maroon);margin-bottom:0;}
+.det-old{font-family:'Cormorant Garamond',serif;font-size:20px;color:#777;text-decoration:line-through;margin-left:10px;font-weight:500;}
 .det-divider{height:1px;background:var(--border);margin:24px 0;}
 .det-desc{color:var(--text2);line-height:1.9;font-size:14px;margin-bottom:28px;}
 .det-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
@@ -159,15 +159,15 @@ nav a:hover,nav a.active{color:var(--maroon);}
 .size-btn.sel{border-color:var(--gold);background:var(--gold);color:var(--bg);font-weight:600;}
 .color-opts{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;}
 .color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.15s;}
-.color-swatch.sel{border-color:var(--gold);outline:2px solid var(--gold);outline-offset:2px;}
+.color-swatch.sel{border-color:var(--maroon);outline:2px solid var(--maroon);outline-offset:2px;}
 .qty-wrap{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
 .qty-box{display:flex;align-items:center;border:1px solid var(--border2);}
 .qty-dec,.qty-inc{width:40px;height:42px;background:transparent;border:none;color:var(--text);cursor:pointer;font-size:16px;transition:background 0.15s;}
-.qty-dec:hover,.qty-inc:hover{background:var(--surface2);color:var(--gold);}
+.qty-dec:hover,.qty-inc:hover{background:var(--maroon-pale);color:var(--maroon);}
 .qty-val{width:52px;text-align:center;font-size:14px;color:var(--text);background:transparent;border:none;outline:none;border-left:1px solid var(--border2);border-right:1px solid var(--border2);height:42px;}
-.atc-btn{width:100%;padding:17px;font-size:11px;letter-spacing:4px;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;transition:all 0.2s;background:var(--gold);color:var(--bg);border:none;}
+.atc-btn{width:100%;padding:17px;font-size:11px;letter-spacing:4px;text-transform:uppercase;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;transition:all 0.2s;background:var(--maroon);color:#fff;border:none;}
 .atc-btn:disabled{background:var(--surface);color:var(--text3);cursor:not-allowed;}
-.atc-btn:not(:disabled):hover{background:var(--gold-light);}
+.atc-btn:not(:disabled):hover{background:var(--gold);box-shadow:0 4px 16px rgba(212,175,55,0.3);}
 .lock-note{text-align:center;font-size:10px;color:var(--text3);margin-top:12px;letter-spacing:2px;text-transform:uppercase;}
 
 /* ═══════════════ CART ═══════════════ */
@@ -438,6 +438,35 @@ nav a:hover,nav a.active{color:var(--maroon);}
 .img-upload-placeholder p{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);}
 input[type=file]{display:none;}
 
+/* ═══════════════ PRICE BREAKDOWN ═══════════════ */
+.price-breakdown{background:var(--bg2);border:1.5px solid var(--border);padding:16px 20px;margin:12px 0 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.pb-col{text-align:center;}
+.pb-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:600;}
+.pb-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;line-height:1;}
+.pb-val.original{color:#777;text-decoration:line-through;font-size:17px;}
+.pb-val.offer{color:var(--maroon);}
+.pb-val.saving{color:var(--green);}
+.pb-divider{width:1px;background:var(--border);margin:0 auto;}
+
+/* ═══════════════ MY ORDERS ═══════════════ */
+.myorder-card{background:#fff;border:1px solid var(--border);margin-bottom:16px;overflow:hidden;box-shadow:0 1px 4px rgba(122,31,43,0.05);}
+.myorder-header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px;cursor:pointer;transition:background 0.15s;}
+.myorder-header:hover{background:var(--bg2);}
+.myorder-id{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--maroon);}
+.myorder-date{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:3px;}
+.myorder-total{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--maroon);}
+.myorder-body{padding:20px 24px;display:none;}
+.myorder-body.open{display:block;}
+.myorder-item-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.myorder-item-row:last-child{border-bottom:none;}
+.myorder-delivery-box{background:var(--bg2);border:1px solid var(--border);padding:14px 18px;margin:16px 0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:12px;}
+.modb-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--maroon);margin-bottom:4px;font-weight:600;}
+.modb-val{color:var(--text2);line-height:1.6;}
+.myorder-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);}
+.empty-orders{text-align:center;padding:60px 0;}
+.empty-orders h3{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--text2);margin-bottom:12px;}
+.empty-orders p{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;}
+
 /* ═══════════════ SUBCATEGORIES ═══════════════ */
 .cat-main-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
 .cat-main-btn{padding:7px 14px;border:1px solid var(--border2);color:var(--text3);font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s;background:transparent;text-transform:uppercase;}
@@ -593,6 +622,7 @@ input[type=file]{display:none;}
     <a onclick="goShop('kids')">Kids</a>
     <a onclick="showStatic('help')">Help</a>
     <a onclick="goTrack()" id="nav-track">Track Order</a>
+    <a onclick="goMyOrders()" id="nav-myorders">My Orders</a>
   </nav>
   <div class="header-right">
     <div class="cart-btn" onclick="goCart()">Bag <span id="cart-count" class="cart-count">0</span></div>
@@ -814,6 +844,8 @@ input[type=file]{display:none;}
         <div class="det-eyebrow" id="det-cat"></div>
         <h1 class="det-name cor" id="det-name"></h1>
         <div style="display:flex;align-items:baseline;gap:0"><div class="det-price" id="det-price"></div><div class="det-old cor" id="det-old"></div></div>
+      <!-- Price Breakdown Box -->
+      <div id="det-price-breakdown"></div>
         <div class="det-divider"></div>
         <p class="det-desc" id="det-desc"></p>
         <div class="det-label">Select Color</div>
@@ -958,7 +990,8 @@ input[type=file]{display:none;}
     <p style="color:var(--text3);font-size:12px;margin-bottom:36px;letter-spacing:2px;text-transform:uppercase">Confirmation sent to your email</p>
     <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
       <button class="btn btn-gold" onclick="goHome()">Continue Shopping</button>
-      <button class="btn btn-ghost" onclick="goTrack()">Track My Order</button>
+      <button class="btn btn-ghost" onclick="goMyOrders()">View My Orders</button>
+      <button class="btn btn-ghost" onclick="goTrack()">Track Order</button>
     </div>
   </div></div>
 </div>
@@ -980,7 +1013,25 @@ input[type=file]{display:none;}
   </div>
 </div>
 
-<!-- ═══════════ STATIC PAGES ═══════════ -->
+<!-- ═══════════ MY ORDERS ═══════════ -->
+<div class="screen" id="screen-myorders">
+  <div class="track-page">
+    <button class="back-btn" onclick="goHome()">← Back to Home</button>
+    <h1 class="track-h1">My Orders</h1>
+    <div class="track-sub">View, track and manage your orders</div>
+
+    <!-- Email lookup for guests -->
+    <div class="track-search-box" id="myorders-lookup" style="margin-bottom:28px">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.8">Enter the email address you used when placing your order to view your order history.</div>
+      <div class="track-input-row">
+        <input class="track-inp" type="email" id="myorders-email" placeholder="Your email address" onkeydown="if(event.key==='Enter')loadMyOrders()">
+        <button class="btn btn-gold btn-sm" onclick="loadMyOrders()">View Orders</button>
+      </div>
+    </div>
+
+    <div id="myorders-results"></div>
+  </div>
+</div>
 <div class="screen" id="screen-returns"><div class="static-wrap">
   <button class="back-btn" onclick="goHome()">← Back</button>
   <h1 class="static-h1">Returns & Exchanges</h1><div class="static-date">Last updated: April 2025</div>
@@ -1479,6 +1530,11 @@ function goTrack(){
   document.getElementById('track-results').innerHTML='';
   document.getElementById('track-inp').value='';
 }
+function goMyOrders(){
+  showScreen('screen-myorders');
+  document.getElementById('myorders-results').innerHTML='';
+  document.getElementById('myorders-email').value='';
+}
 
 /* ══════════════════════════════════════════════
    PRODUCTS — SUBCATEGORY + MULTI-SORT
@@ -1603,9 +1659,7 @@ function openProduct(id){
   document.getElementById('det-cat').textContent=p.cat.toUpperCase();
   document.getElementById('det-name').textContent=p.name;
   document.getElementById('det-price').textContent=`₹${p.price.toLocaleString('en-IN')}`;
-  document.getElementById('det-old').textContent=p.oldPrice?`₹${p.oldPrice.toLocaleString('en-IN')}`:'';
-  document.getElementById('det-desc').textContent=p.desc;
-  const mainImg=document.getElementById('det-main-img');
+  document.getElementById('det-old').textContent=p.oldPrice?`₹${p.oldPrice.toLocaleString('en-IN')}`:'';  const mainImg=document.getElementById('det-main-img');
   document.getElementById('det-ph').style.display=p.img?'none':'flex';
   document.getElementById('det-ph').textContent=p.icon;
   if(p.img){const existing=mainImg.querySelector('img.main-img');if(existing)existing.remove();const img=document.createElement('img');img.src=p.img;img.className='main-img';img.style.cssText='width:100%;height:100%;object-fit:cover;position:absolute;inset:0';mainImg.appendChild(img);}else{const existing=mainImg.querySelector('img.main-img');if(existing)existing.remove();}
@@ -1803,15 +1857,15 @@ function placeOrder(){
   });
   document.getElementById('success-ref').textContent=`ORDER #${oid}`;
   const dInfo=document.getElementById('success-delivery-info');
-  if(dInfo)dInfo.innerHTML=`<span style="color:var(--gold)">${opt.label}</span> · ${opt.days}${selDate?` · Preferred: ${formatDate(selDate)}`:''}`;
+  if(dInfo)dInfo.innerHTML=`<span style="color:var(--maroon)">${opt.label}</span> · ${opt.days}${selDate?` · Preferred: ${formatDate(selDate)}`:''}`;
   cart=[];updateCartCount();updateBadges();
+  saveToStorage(); // persist order so admin sees it on refresh
   showScreen('screen-success');
 }
 
 /* ══════════════════════════════════════════════
    ORDER TRACKING
 ══════════════════════════════════════════════ */
-function goTrack(){showScreen('screen-track');document.getElementById('track-results').innerHTML='';}
 
 function searchOrders(){
   const q=document.getElementById('track-inp').value.trim().toLowerCase();
@@ -1896,21 +1950,6 @@ function openCancel(id){
   document.getElementById('cancel-order-info').innerHTML=`<strong style="color:var(--text)">${o.id}</strong> &nbsp;·&nbsp; ${o.items.map(i=>i.name).join(', ')} &nbsp;·&nbsp; <span style="color:var(--gold)">₹${o.total.toLocaleString('en-IN')}</span>`;
   document.getElementById('cancel-reason').value='';
   document.getElementById('cancel-modal').classList.add('open');
-}
-function confirmCancel(){
-  const reason=document.getElementById('cancel-reason').value;
-  if(!reason){showToast('Please select a reason for cancellation');return;}
-  const o=orders.find(x=>x.id===cancelOrderId);
-  if(!o){document.getElementById('cancel-modal').classList.remove('open');return;}
-  o.status='cancelled';
-  o.cancelReason=document.getElementById('cancel-reason').options[document.getElementById('cancel-reason').selectedIndex].text;
-  document.getElementById('cancel-modal').classList.remove('open');
-  updateBadges();
-  showToast(`Order ${cancelOrderId} has been cancelled. Refund will be processed in 5–7 days.`);
-  // Refresh tracking results if visible
-  const q=document.getElementById('track-inp')?.value;
-  if(q)searchOrders();
-  cancelOrderId=null;
 }
 
 /* ══════════════════════════════════════════════
@@ -2048,8 +2087,8 @@ function renderOrders(){
 }
 function toggleOD(id){const r=document.getElementById(`odr-${id}`);r.classList.toggle('open');document.getElementById(`orow-${id}`).querySelector('.expand-btn').textContent=r.classList.contains('open')?'▴':'▾';}
 function confirmOrd(id){const o=orders.find(x=>x.id===id);if(!o)return;o.status='confirmed';renderOrders();updateBadges();showToast(`Order ${id} confirmed`);openNotify(id);}
-function updOrderStatus(id,s){const o=orders.find(x=>x.id===id);if(o){o.status=s;updateBadges();showToast(`${id} → ${s}`);}}
-function delOrder(id){if(confirm(`Delete order ${id}?`)){orders=orders.filter(o=>o.id!==id);renderOrders();updateBadges();showToast('Order deleted');}}
+function updOrderStatus(id,s){const o=orders.find(x=>x.id===id);if(o){o.status=s;updateBadges();saveToStorage();showToast(`${id} → ${s}`);}}
+function delOrder(id){if(confirm(`Delete order ${id}?`)){orders=orders.filter(o=>o.id!==id);renderOrders();updateBadges();saveToStorage();showToast('Order deleted');}}
 
 /* NOTIFY */
 function openNotify(id){
@@ -2068,7 +2107,25 @@ function openNotify(id){
   document.getElementById('notify-note').value='';
   document.getElementById('notify-modal').classList.add('open');
 }
-function sendNotify(){if(notifyOrd){notifyOrd.notified=true;renderOrders();}document.getElementById('notify-modal').classList.remove('open');showToast('Notification sent to customer');}
+function sendNotify(){if(notifyOrd){notifyOrd.notified=true;saveToStorage();renderOrders();}document.getElementById('notify-modal').classList.remove('open');showToast('Notification sent to customer');}
+
+function confirmCancel(){
+  const reason=document.getElementById('cancel-reason').value;
+  if(!reason){showToast('Please select a reason for cancellation');return;}
+  const o=orders.find(x=>x.id===cancelOrderId);
+  if(!o){document.getElementById('cancel-modal').classList.remove('open');return;}
+  o.status='cancelled';
+  o.cancelReason=document.getElementById('cancel-reason').options[document.getElementById('cancel-reason').selectedIndex].text;
+  document.getElementById('cancel-modal').classList.remove('open');
+  updateBadges();
+  saveToStorage(); // persist cancellation
+  showToast(`Order ${cancelOrderId} cancelled. Refund in 5–7 business days.`);
+  const q=document.getElementById('track-inp')?.value;
+  if(q)searchOrders();
+  // If called from My Orders, reload the list
+  if(window._cancelCallback){window._cancelCallback();window._cancelCallback=null;}
+  cancelOrderId=null;
+}
 
 /* INVENTORY */
 function renderInventory(){
@@ -2086,7 +2143,7 @@ function renderInventory(){
     <td><div style="display:flex;align-items:center;gap:8px"><input class="stock-inp" type="number" value="${p.stock}" min="0" id="sinp-${p.id}"><button class="btn btn-gold btn-xs" onclick="saveStock(${p.id})">Save</button></div></td>
   </tr>`).join('')}</tbody></table>`;
 }
-function saveStock(id){const el=document.getElementById(`sinp-${id}`);if(!el)return;const p=products.find(x=>x.id===id);if(!p)return;p.stock=parseInt(el.value)||0;renderInventory();showToast(`Stock updated: ${p.name} → ${p.stock} units`);}
+function saveStock(id){const el=document.getElementById(`sinp-${id}`);if(!el)return;const p=products.find(x=>x.id===id);if(!p)return;p.stock=parseInt(el.value)||0;saveToStorage();renderInventory();showToast(`Stock updated: ${p.name} → ${p.stock} units`);}
 function handleCSV(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
@@ -2141,11 +2198,10 @@ function saveProduct(){
   if(editProdId){const idx=products.findIndex(p=>p.id===editProdId);products[idx]={...products[idx],...data};showToast('Product updated ✓ Image applied to shop');}
   else{products.push({id:Date.now(),...data});showToast('Product added to shop ✓');}
   closeProdModal();
-  renderProds();        // refresh admin products table
-  renderInventory();    // refresh admin inventory
-  renderProducts();     // ← FIX: refresh user-facing shop so image appears immediately
+  saveToStorage(); // persist products including images
+  renderProds();renderInventory();renderProducts();
 }
-function delProd(id){if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);renderProds();renderInventory();showToast('Product deleted');}}
+function delProd(id){if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);saveToStorage();renderProds();renderInventory();renderProducts();showToast('Product deleted');}}
 function renderProds(){
   document.getElementById('prod-table').innerHTML=`<table class="a-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Details</th><th>Actions</th></tr></thead><tbody>${products.map(p=>`<tr>
     <td><div style="display:flex;align-items:center;gap:12px"><div class="a-prod-thumb">${p.img?`<img src="${p.img}" alt="">`:`<div class="a-prod-thumb-ph">${p.icon}</div>`}</div><div><div style="color:var(--text);font-size:13px">${p.name}</div>${p.badge?`<span class="s-badge ${p.badge==='sale'?'pending':p.badge==='new'?'confirmed':'shipped'}" style="margin-top:4px">${p.badge}</span>`:''}</div></div></td>
@@ -2242,7 +2298,7 @@ function saveSettings(){
   ['instagram','facebook','twitter','youtube','pinterest','linkedin'].forEach(k=>{
     const el=document.getElementById(`set-${k}`);if(el)storeSettings[k]=el.value.trim();
   });
-  applySettings();showToast('Settings saved ✓');
+  applySettings();saveToStorage();showToast('Settings saved ✓');
   document.getElementById('settings-live-preview').innerHTML=`Store: <strong style="color:var(--text)">${storeSettings.name}</strong> — Free shipping over ₹${storeSettings.shipThresh.toLocaleString('en-IN')} — ${storeSettings.returnDays}-day returns — ${storeSettings.gst}% GST`;
 }
 function applySettings(){
@@ -2334,24 +2390,161 @@ document.addEventListener('DOMContentLoaded',()=>{
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 
 /* ══════════════════════════════════════════════
-   ADMIN ACCESS (hidden button via keyboard)
+   LOCALSTORAGE PERSISTENCE
 ══════════════════════════════════════════════ */
-// Secret: click logo 5 times rapidly
+function saveToStorage(){
+  try{
+    localStorage.setItem('ts_orders',JSON.stringify(orders));
+    localStorage.setItem('ts_products',JSON.stringify(products));
+    localStorage.setItem('ts_settings',JSON.stringify(storeSettings));
+  }catch(e){console.warn('Storage save failed:',e);}
+}
+function loadFromStorage(){
+  try{
+    const savedOrders=localStorage.getItem('ts_orders');
+    if(savedOrders){const p=JSON.parse(savedOrders);if(p&&p.length)orders=[...p];}
+    const savedProds=localStorage.getItem('ts_products');
+    if(savedProds){const p=JSON.parse(savedProds);if(p&&p.length)products=[...p];}
+    const savedSettings=localStorage.getItem('ts_settings');
+    if(savedSettings){const p=JSON.parse(savedSettings);if(p)Object.assign(storeSettings,p);}
+  }catch(e){console.warn('Storage load failed:',e);}
+}
+
+/* ══════════════════════════════════════════════
+   PRICE BREAKDOWN (product detail)
+══════════════════════════════════════════════ */
+function buildPriceBreakdown(p){
+  const el=document.getElementById('det-price-breakdown');
+  if(!el)return;
+  if(!p.oldPrice||p.oldPrice<=p.price){el.innerHTML='';return;}
+  const saving=p.oldPrice-p.price;
+  const pct=Math.round((saving/p.oldPrice)*100);
+  el.innerHTML=`<div class="price-breakdown">
+    <div class="pb-col">
+      <div class="pb-label">Original Price</div>
+      <div class="pb-val original">₹${p.oldPrice.toLocaleString('en-IN')}</div>
+    </div>
+    <div class="pb-divider"></div>
+    <div class="pb-col">
+      <div class="pb-label">Offer Price</div>
+      <div class="pb-val offer">₹${p.price.toLocaleString('en-IN')}</div>
+    </div>
+    <div class="pb-divider"></div>
+    <div class="pb-col">
+      <div class="pb-label">You Save</div>
+      <div class="pb-val saving">₹${saving.toLocaleString('en-IN')} (${pct}%)</div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   MY ORDERS PAGE
+══════════════════════════════════════════════ */
+function loadMyOrders(){
+  const email=document.getElementById('myorders-email').value.trim().toLowerCase();
+  if(!email){showToast('Please enter your email address');return;}
+  const myOrders=orders.filter(o=>o.email&&o.email.toLowerCase()===email);
+  const wrap=document.getElementById('myorders-results');
+  if(!myOrders.length){
+    wrap.innerHTML=`<div class="empty-orders">
+      <h3>No orders found</h3>
+      <p>No orders found for ${email}</p>
+      <button class="btn btn-gold" onclick="goShop()">Start Shopping</button>
+    </div>`;
+    return;
+  }
+  wrap.innerHTML=`<div style="margin-bottom:20px;font-size:13px;color:var(--text2)">Found <strong style="color:var(--maroon)">${myOrders.length}</strong> order${myOrders.length>1?'s':''} for <strong style="color:var(--maroon)">${email}</strong></div>`
+    + myOrders.map(o=>buildMyOrderCard(o)).join('');
+}
+
+function buildMyOrderCard(o){
+  const canCancel=o.status==='pending'||o.status==='confirmed';
+  const isCancelled=o.status==='cancelled';
+  const DELIVERY_OPTIONS_REF={standard:{label:'Standard',days:'4–7 days'},express:{label:'Express',days:'1–2 days'},sameday:{label:'Same-Day',days:'Today'}};
+  const delOpt=DELIVERY_OPTIONS_REF[o.deliveryType||'standard'];
+  return `<div class="myorder-card">
+    <div class="myorder-header" onclick="toggleMyOrder('${o.id}')">
+      <div>
+        <div class="myorder-id">${o.id}</div>
+        <div class="myorder-date">Placed on ${o.date} · ${o.items.length} item${o.items.length>1?'s':''} · <span class="s-badge ${o.status}" style="font-size:9px">${o.status}</span></div>
+      </div>
+      <div style="text-align:right">
+        <div class="myorder-total">₹${o.total.toLocaleString('en-IN')}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px;letter-spacing:1px">▾ Tap to expand</div>
+      </div>
+    </div>
+    <div class="myorder-body" id="mob-${o.id}">
+      ${isCancelled?`<div style="background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.25);padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--red)">✕ Order Cancelled${o.cancelReason?` — ${o.cancelReason}`:''}</div>`:''}
+      <!-- Items -->
+      <div style="margin-bottom:4px;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--maroon);font-weight:600">Items Ordered</div>
+      ${o.items.map(i=>`<div class="myorder-item-row">
+        <div><div style="color:var(--text);font-weight:500">${i.name}</div><div style="font-size:11px;color:var(--text3)">Qty: ${i.qty}</div></div>
+        <div style="color:var(--maroon);font-weight:700">₹${i.price.toLocaleString('en-IN')}</div>
+      </div>`).join('')}
+      <!-- Price breakdown -->
+      <div style="background:var(--bg2);border:1px solid var(--border);padding:14px 18px;margin:16px 0;font-size:13px;">
+        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--maroon);font-weight:600;margin-bottom:12px">Price Breakdown</div>
+        <div style="display:flex;justify-content:space-between;color:var(--text2);margin-bottom:8px"><span>Subtotal</span><span>₹${o.items.reduce((s,i)=>s+i.price,0).toLocaleString('en-IN')}</span></div>
+        <div style="display:flex;justify-content:space-between;color:var(--text2);margin-bottom:8px"><span>Delivery (${delOpt.label})</span><span>${o.deliveryCost===0?'<span style="color:var(--green)">Free</span>':`₹${(o.deliveryCost||0).toLocaleString('en-IN')}`}</span></div>
+        <div style="display:flex;justify-content:space-between;color:var(--text2);margin-bottom:8px"><span>GST (18%)</span><span>₹${Math.round(o.items.reduce((s,i)=>s+i.price,0)*0.18).toLocaleString('en-IN')}</span></div>
+        <div style="height:1px;background:var(--border);margin:10px 0"></div>
+        <div style="display:flex;justify-content:space-between;font-weight:700;font-size:15px"><span style="color:var(--text)">Total Paid</span><span style="color:var(--maroon)">₹${o.total.toLocaleString('en-IN')}</span></div>
+      </div>
+      <!-- Delivery info -->
+      <div class="myorder-delivery-box">
+        <div><div class="modb-label">Delivery Method</div><div class="modb-val">${o.deliveryLabel||delOpt.label}<br><span style="font-size:10px;color:var(--text3)">${o.deliveryDays||delOpt.days}</span></div></div>
+        <div><div class="modb-label">Preferred Date</div><div class="modb-val">${o.preferredDate?formatDate(o.preferredDate):'Not specified'}</div></div>
+        <div><div class="modb-label">Shipping To</div><div class="modb-val">${o.addr1}<br>${o.city}, ${o.state} — ${o.pin}</div></div>
+      </div>
+      <!-- Actions -->
+      <div class="myorder-actions">
+        <button class="btn btn-ghost btn-sm" onclick="prefillTrack('${o.id}')">📦 Track Order</button>
+        ${canCancel?`<button class="btn btn-danger" style="padding:9px 20px;font-size:10px;letter-spacing:2px" onclick="openCancelFromMyOrders('${o.id}','${o.email}')">✕ Cancel Order</button>`:''}
+        ${o.status==='delivered'?`<button class="btn btn-ghost btn-sm" onclick="showStatic('returns')">↩ Return / Exchange</button>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleMyOrder(id){
+  const body=document.getElementById(`mob-${id}`);
+  if(body)body.classList.toggle('open');
+}
+
+function prefillTrack(id){
+  showScreen('screen-track');
+  document.getElementById('track-inp').value=id;
+  searchOrders();
+}
+
+function openCancelFromMyOrders(id,email){
+  cancelOrderId=id;
+  const o=orders.find(x=>x.id===id);if(!o)return;
+  if(o.status!=='pending'&&o.status!=='confirmed'){showToast('This order cannot be cancelled — it has already been shipped.');return;}
+  document.getElementById('cancel-order-info').innerHTML=`<strong style="color:var(--text)">${o.id}</strong> &nbsp;·&nbsp; ${o.items.map(i=>i.name).join(', ')} &nbsp;·&nbsp; <span style="color:var(--maroon)">₹${o.total.toLocaleString('en-IN')}</span>`;
+  document.getElementById('cancel-reason').value='';
+  // Override confirmCancel to reload my orders after
+  window._cancelCallback=()=>loadMyOrders();
+  document.getElementById('myorders-email').value=email;
+  document.getElementById('cancel-modal').classList.add('open');
+}
+
+/* ══════════════════════════════════════════════
+   INIT + STORAGE
+══════════════════════════════════════════════ */
+loadFromStorage();
+applySettings();   // apply any saved logo/name/social links
+renderSocialIcons();
+renderProducts();
+updateBadges();
+
+// Secret admin access — click logo 5 times rapidly
 let logoClicks=0,logoTimer;
 document.querySelector('.logo-wrap').addEventListener('click',()=>{
   logoClicks++;clearTimeout(logoTimer);
   logoTimer=setTimeout(()=>logoClicks=0,2000);
   if(logoClicks>=5){logoClicks=0;openAdminLogin();}
 });
-// Also expose a hidden link in footer (very discreet)
-</script>
-
-<!-- Hidden admin access in footer (subtle, not obvious to customers) -->
-<div id="mode-btn-hidden" style="position:fixed;bottom:0;right:0;width:20px;height:20px;cursor:pointer;z-index:999;opacity:0" onclick="openAdminLogin()" title=""></div>
-
-<script>
-// Init
-renderProducts();
 </script>
 </body>
 </html>
