@@ -970,12 +970,7 @@ input[type=file]{display:none;}
       <div class="co-box">
         <div class="co-box-title">Order Summary</div>
         <div id="co-summary-items"></div>
-        <div class="co-divider"></div>
-        <div class="co-item-row"><span>Subtotal</span><span id="co-sub">₹0</span></div>
-        <div class="co-item-row"><span>Shipping</span><span id="co-ship">Free</span></div>
-        <div class="co-item-row"><span>GST (18%)</span><span id="co-tax">₹0</span></div>
-        <div class="co-divider"></div>
-        <div class="co-total-row"><span>Total</span><span id="co-total" style="color:var(--gold)">₹0</span></div>
+        <div id="co-price-breakdown"></div>
       </div>
     </div>
   </div>
@@ -1905,16 +1900,81 @@ function goCoStep(s){
   if(s===3)renderReview();
 }
 function renderCoSummary(){
-  const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
-  const gst=storeSettings.gst||18;
-  const tax=Math.round(sub*gst/100);
+  const gstRate=storeSettings.gst||18;
   const ship=getDeliveryCost();
-  document.getElementById('co-summary-items').innerHTML=cart.map(i=>`<div class="co-item-row"><span>${i.product.name} ×${i.qty}</span><span>₹${(i.product.price*i.qty).toLocaleString('en-IN')}</span></div>`).join('');
-  document.getElementById('co-sub').textContent=`₹${sub.toLocaleString('en-IN')}`;
   const opt=DELIVERY_OPTIONS[selDelivery];
-  document.getElementById('co-ship').textContent=ship===0?'Free':`₹${ship} (${opt.label})`;
-  document.getElementById('co-tax').textContent=`₹${tax.toLocaleString('en-IN')}`;
-  document.getElementById('co-total').textContent=`₹${(sub+tax+ship).toLocaleString('en-IN')}`;
+
+  // Per item: MRP = oldPrice × qty (or price × qty if no discount)
+  let mrpTotal=0, offerTotal=0, totalDiscount=0;
+  const itemLines=cart.map(i=>{
+    const mrpUnit=i.product.oldPrice||i.product.price;
+    const offerUnit=i.product.price;
+    const mrp=mrpUnit*i.qty;
+    const offer=offerUnit*i.qty;
+    const disc=mrp-offer;
+    mrpTotal+=mrp; offerTotal+=offer; totalDiscount+=disc;
+    return `<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:13px;color:var(--text);font-weight:500">${i.product.name}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px;letter-spacing:1px">Qty: ${i.qty} ${i.size?`· Size: ${i.size}`:''}${i.color?` · ${i.color}`:''}</div>
+        ${i.product.oldPrice&&i.product.oldPrice>i.product.price?`<div style="font-size:11px;color:var(--text3);margin-top:2px;text-decoration:line-through">MRP ₹${(i.product.oldPrice*i.qty).toLocaleString('en-IN')}</div>`:''}
+      </div>
+      <div style="text-align:right;flex-shrink:0;padding-left:12px">
+        <div style="font-size:13px;color:var(--maroon);font-weight:700">₹${offer.toLocaleString('en-IN')}</div>
+        ${disc>0?`<div style="font-size:10px;color:var(--green);margin-top:2px;font-weight:600">−₹${disc.toLocaleString('en-IN')} off</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // GST calculated on offer price (bare minimum — included in price display)
+  const gstIncluded=Math.round(offerTotal*gstRate/(100+gstRate));
+  const finalPrice=offerTotal+ship;
+
+  // Savings badge
+  const totalSaved=totalDiscount+(ship===0&&offerTotal>=storeSettings.shipThresh?250:0);
+
+  document.getElementById('co-summary-items').innerHTML=itemLines;
+
+  document.getElementById('co-price-breakdown').innerHTML=`
+    <div style="margin-top:4px">
+      <!-- Price rows -->
+      <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:13px;color:var(--text2)">
+        <span>MRP Price</span>
+        <span style="text-decoration:${totalDiscount>0?'line-through':'none'};color:${totalDiscount>0?'#999':'var(--text)'}">₹${mrpTotal.toLocaleString('en-IN')}</span>
+      </div>
+      ${totalDiscount>0?`<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px">
+        <span style="color:var(--text2)">Offer Price</span>
+        <span style="color:var(--maroon);font-weight:600">₹${offerTotal.toLocaleString('en-IN')}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px">
+        <span style="color:var(--green);font-weight:600">Discount</span>
+        <span style="color:var(--green);font-weight:700">−₹${totalDiscount.toLocaleString('en-IN')} (${Math.round(totalDiscount/mrpTotal*100)}% off)</span>
+      </div>`:''}
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;color:var(--text2)">
+        <span>Delivery (${opt.label})</span>
+        <span style="color:${ship===0?'var(--green)':'var(--text)'};font-weight:${ship===0?600:400}">${ship===0?'FREE':'₹'+ship.toLocaleString('en-IN')}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:var(--text3)">
+        <span>GST (${gstRate}% incl. in price)</span>
+        <span>₹${gstIncluded.toLocaleString('en-IN')}</span>
+      </div>
+
+      <!-- Savings highlight -->
+      ${totalSaved>0?`<div style="background:rgba(22,163,74,0.07);border:1px solid rgba(22,163,74,0.25);border-left:3px solid var(--green);padding:10px 14px;margin:12px 0;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:11px;letter-spacing:1px;color:var(--green);font-weight:600">🎉 You are saving</span>
+        <span style="font-size:15px;font-weight:700;color:var(--green)">₹${totalSaved.toLocaleString('en-IN')}</span>
+      </div>`:''}
+
+      <!-- Divider -->
+      <div style="height:1.5px;background:var(--border);margin:12px 0"></div>
+
+      <!-- Final total -->
+      <div style="display:flex;justify-content:space-between;align-items:baseline">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--text)">Final Price</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--maroon)">₹${finalPrice.toLocaleString('en-IN')}</span>
+      </div>
+      <div style="font-size:10px;color:var(--text3);text-align:right;margin-top:4px;letter-spacing:1px">Inclusive of all taxes</div>
+    </div>`;
 }
 function renderReview(){
   const fn=document.getElementById('f-fname').value,ln=document.getElementById('f-lname').value;
@@ -1931,10 +1991,9 @@ function renderReview(){
     </div>`;
 }
 function placeOrder(){
-  const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
-  const tax=Math.round(sub*(storeSettings.gst||18)/100);
+  const offerTotal=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
   const ship=getDeliveryCost();
-  const total=sub+tax+ship;
+  const total=offerTotal+ship; // GST is included in offer price
   const oid='TS-'+String(orders.length+1).padStart(5,'0');
   const opt=DELIVERY_OPTIONS[selDelivery];
   orders.unshift({
