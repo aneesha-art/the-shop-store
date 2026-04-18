@@ -8,15 +8,16 @@
 <style>
 /* ═══════════════ DESIGN TOKENS ═══════════════ */
 :root{
-  --gold:#c9922e;--gold-light:#e0aa48;--gold-dim:#8a6420;--gold-pale:#f0d9a8;
-  --bg:#07060400;--bg:#070604;--bg2:#0e0c07;--bg3:#16130c;
-  --surface:#1c190f;--surface2:#252015;--surface3:#2f2a1a;
-  --border:#2a2519;--border2:#3e3822;--border3:#56502e;
-  --text:#f4edd8;--text2:#b09c78;--text3:#6e6244;--text4:#3d3826;
-  --accent:#c9922e;--red:#b83a2a;--red-light:#e87272;
-  --green:#2a7045;--green-light:#4cbe84;
-  --blue:#3050a0;--blue-light:#8899dd;
+  --gold:#D4AF37;--gold-light:#E8C84A;--gold-dim:#9A7E20;--gold-pale:#F5E6A3;
+  --bg:#111111;--bg2:#1A1A1A;--bg3:#222222;
+  --surface:#1F1F1F;--surface2:#2A2A2A;--surface3:#333333;
+  --border:#2C2C2C;--border2:#3D3D3D;--border3:#555555;
+  --text:#F5F5F5;--text2:#9CA3AF;--text3:#6B7280;--text4:#4B5563;
+  --accent:#D4AF37;--red:#DC2626;--red-light:#F87171;
+  --green:#16A34A;--green-light:#4ADE80;
+  --blue:#3B82F6;--blue-light:#93C5FD;
   --radius:2px;
+  --soft-white:#F5F5F5;--gray:#6B7280;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -437,6 +438,35 @@ nav a:hover,nav a.active{color:var(--gold);}
 .img-upload-placeholder p{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);}
 input[type=file]{display:none;}
 
+/* ═══════════════ SUBCATEGORIES ═══════════════ */
+.cat-main-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.cat-main-btn{padding:7px 14px;border:1px solid var(--border2);color:var(--text3);font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s;background:transparent;text-transform:uppercase;}
+.cat-main-btn:hover{border-color:var(--border3);color:var(--text2);}
+.cat-main-btn.active{border-color:var(--gold);background:var(--gold);color:var(--bg);font-weight:600;}
+.subcat-wrap{margin-top:6px;margin-bottom:4px;padding:12px;background:var(--surface2);border:1px solid var(--border);display:none;}
+.subcat-wrap.open{display:block;}
+.subcat-label{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.subcat-options{display:flex;flex-wrap:wrap;gap:6px;}
+.subcat-btn{padding:5px 12px;border:1px solid var(--border2);color:var(--text3);font-size:10px;letter-spacing:1px;cursor:pointer;transition:all 0.15s;background:transparent;}
+.subcat-btn:hover{border-color:var(--gold);color:var(--gold);}
+.subcat-btn.active{border-color:var(--gold);background:rgba(212,175,55,0.12);color:var(--gold);}
+/* SORT BAR */
+.sort-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sort-group{display:flex;flex-direction:column;gap:4px;}
+.sort-group-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);}
+.sort-select-new{background:var(--surface);border:1px solid var(--border2);color:var(--text2);padding:8px 14px;font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;letter-spacing:1px;min-width:140px;}
+.sort-select-new:focus{outline:none;border-color:var(--gold);}
+.sort-select-new:hover{border-color:var(--border3);}
+/* Active filter chips */
+.active-filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;min-height:0;}
+.af-chip{display:flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.35);font-size:10px;color:var(--gold);letter-spacing:1px;}
+.af-chip button{background:transparent;border:none;color:var(--gold);cursor:pointer;font-size:12px;line-height:1;padding:0;}
+/* Result count bar */
+.result-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:24px;}
+.result-count{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;}
+.result-count strong{color:var(--gold);}
+
+
 /* ═══════════════ DELIVERY OPTIONS ═══════════════ */
 .delivery-opts{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
 .delivery-card{border:1px solid var(--border2);padding:18px 20px;cursor:pointer;transition:all 0.2s;position:relative;display:flex;align-items:flex-start;gap:16px;}
@@ -615,13 +645,70 @@ input[type=file]{display:none;}
   <div class="shop-layout">
     <aside class="sidebar">
       <div class="sidebar-heading">Filter & Refine</div>
-      <div class="filter-group"><span class="filter-label">Category</span><div class="filter-options" id="cat-filters">
-        <div class="filter-tag active" data-cat="all" onclick="setFilter('cat','all',this)">All</div>
-        <div class="filter-tag" data-cat="women" onclick="setFilter('cat','women',this)">Women</div>
-        <div class="filter-tag" data-cat="men" onclick="setFilter('cat','men',this)">Men</div>
-        <div class="filter-tag" data-cat="kids" onclick="setFilter('cat','kids',this)">Kids</div>
-        <div class="filter-tag" data-cat="accessories" onclick="setFilter('cat','accessories',this)">Accessories</div>
-      </div></div>
+
+      <!-- CATEGORIES WITH SUBCATEGORIES -->
+      <div class="filter-group">
+        <span class="filter-label">Category</span>
+        <div class="cat-main-row" id="cat-filters">
+          <div class="cat-main-btn active" data-cat="all" onclick="setCat('all',this)">All</div>
+          <div class="cat-main-btn" data-cat="women" onclick="setCat('women',this)">Women</div>
+          <div class="cat-main-btn" data-cat="men" onclick="setCat('men',this)">Men</div>
+          <div class="cat-main-btn" data-cat="kids" onclick="setCat('kids',this)">Kids</div>
+          <div class="cat-main-btn" data-cat="accessories" onclick="setCat('accessories',this)">Accessories</div>
+        </div>
+        <!-- Women Subcategories -->
+        <div class="subcat-wrap" id="subcat-women">
+          <div class="subcat-label">Women — Choose type</div>
+          <div class="subcat-options">
+            <div class="subcat-btn" data-sub="sarees" onclick="setSub('sarees',this)">Sarees</div>
+            <div class="subcat-btn" data-sub="kurtis" onclick="setSub('kurtis',this)">Kurtis</div>
+            <div class="subcat-btn" data-sub="lehengas" onclick="setSub('lehengas',this)">Lehengas</div>
+            <div class="subcat-btn" data-sub="dresses" onclick="setSub('dresses',this)">Dresses</div>
+            <div class="subcat-btn" data-sub="tops" onclick="setSub('tops',this)">Tops</div>
+            <div class="subcat-btn" data-sub="palazzos" onclick="setSub('palazzos',this)">Palazzos</div>
+            <div class="subcat-btn" data-sub="coats" onclick="setSub('coats',this)">Coats & Jackets</div>
+            <div class="subcat-btn" data-sub="bridal" onclick="setSub('bridal',this)">Bridal</div>
+          </div>
+        </div>
+        <!-- Men Subcategories -->
+        <div class="subcat-wrap" id="subcat-men">
+          <div class="subcat-label">Men — Choose type</div>
+          <div class="subcat-options">
+            <div class="subcat-btn" data-sub="shirts" onclick="setSub('shirts',this)">Shirts</div>
+            <div class="subcat-btn" data-sub="suits" onclick="setSub('suits',this)">Suits</div>
+            <div class="subcat-btn" data-sub="blazers" onclick="setSub('blazers',this)">Blazers</div>
+            <div class="subcat-btn" data-sub="kurtas" onclick="setSub('kurtas',this)">Kurtas</div>
+            <div class="subcat-btn" data-sub="trousers" onclick="setSub('trousers',this)">Trousers</div>
+            <div class="subcat-btn" data-sub="nehru" onclick="setSub('nehru',this)">Nehru Jackets</div>
+            <div class="subcat-btn" data-sub="bandhgala" onclick="setSub('bandhgala',this)">Bandhgala</div>
+          </div>
+        </div>
+        <!-- Kids Subcategories -->
+        <div class="subcat-wrap" id="subcat-kids">
+          <div class="subcat-label">Kids — Choose type</div>
+          <div class="subcat-options">
+            <div class="subcat-btn" data-sub="boys" onclick="setSub('boys',this)">Boys</div>
+            <div class="subcat-btn" data-sub="girls" onclick="setSub('girls',this)">Girls</div>
+            <div class="subcat-btn" data-sub="infants" onclick="setSub('infants',this)">Infants (0–2 yrs)</div>
+            <div class="subcat-btn" data-sub="kids-festive" onclick="setSub('kids-festive',this)">Festive Wear</div>
+            <div class="subcat-btn" data-sub="kids-casual" onclick="setSub('kids-casual',this)">Casual Wear</div>
+          </div>
+        </div>
+        <!-- Accessories Subcategories -->
+        <div class="subcat-wrap" id="subcat-accessories">
+          <div class="subcat-label">Accessories — Choose type</div>
+          <div class="subcat-options">
+            <div class="subcat-btn" data-sub="jewellery" onclick="setSub('jewellery',this)">Jewellery</div>
+            <div class="subcat-btn" data-sub="bags" onclick="setSub('bags',this)">Bags & Clutches</div>
+            <div class="subcat-btn" data-sub="footwear" onclick="setSub('footwear',this)">Footwear</div>
+            <div class="subcat-btn" data-sub="scarves" onclick="setSub('scarves',this)">Scarves & Dupattas</div>
+            <div class="subcat-btn" data-sub="belts" onclick="setSub('belts',this)">Belts</div>
+            <div class="subcat-btn" data-sub="sunglasses" onclick="setSub('sunglasses',this)">Sunglasses</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIZE -->
       <div class="filter-group"><span class="filter-label">Size</span><div class="filter-options" id="size-filters">
         <div class="filter-tag" data-size="XS" onclick="setFilter('size','XS',this)">XS</div>
         <div class="filter-tag" data-size="S" onclick="setFilter('size','S',this)">S</div>
@@ -633,6 +720,8 @@ input[type=file]{display:none;}
         <div class="filter-tag" data-size="4-6" onclick="setFilter('size','4-6',this)">4-6 yrs</div>
         <div class="filter-tag" data-size="7-12" onclick="setFilter('size','7-12',this)">7-12 yrs</div>
       </div></div>
+
+      <!-- COLOR -->
       <div class="filter-group"><span class="filter-label">Color</span><div class="filter-options" id="color-filters">
         <div class="filter-tag" data-color="black" onclick="setFilter('color','black',this)">Black</div>
         <div class="filter-tag" data-color="white" onclick="setFilter('color','white',this)">White</div>
@@ -640,23 +729,67 @@ input[type=file]{display:none;}
         <div class="filter-tag" data-color="navy" onclick="setFilter('color','navy',this)">Navy</div>
         <div class="filter-tag" data-color="gold" onclick="setFilter('color','gold',this)">Gold</div>
         <div class="filter-tag" data-color="red" onclick="setFilter('color','red',this)">Red</div>
+        <div class="filter-tag" data-color="ivory" onclick="setFilter('color','ivory',this)">Ivory</div>
+        <div class="filter-tag" data-color="blush" onclick="setFilter('color','blush',this)">Blush</div>
       </div></div>
-      <div class="filter-group"><span class="filter-label">Price (₹)</span><div style="display:flex;gap:8px">
-        <input class="stock-inp" style="width:100%;padding:8px 10px" type="number" id="price-min" placeholder="Min" oninput="renderProducts()">
-        <input class="stock-inp" style="width:100%;padding:8px 10px" type="number" id="price-max" placeholder="Max" oninput="renderProducts()">
-      </div></div>
-      <button class="btn btn-ghost" style="width:100%;padding:10px;font-size:10px;margin-top:8px" onclick="clearFilters()">Clear All</button>
+
+      <!-- PRICE RANGE -->
+      <div class="filter-group">
+        <span class="filter-label">Price Range (₹)</span>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px" id="price-quick-filters">
+          <div class="filter-tag" onclick="setPriceRange(0,5000,this)">Under ₹5K</div>
+          <div class="filter-tag" onclick="setPriceRange(5000,15000,this)">₹5K–₹15K</div>
+          <div class="filter-tag" onclick="setPriceRange(15000,35000,this)">₹15K–₹35K</div>
+          <div class="filter-tag" onclick="setPriceRange(35000,999999,this)">₹35K+</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <input class="stock-inp" style="width:100%;padding:8px 10px" type="number" id="price-min" placeholder="Min ₹" oninput="renderProducts()">
+          <input class="stock-inp" style="width:100%;padding:8px 10px" type="number" id="price-max" placeholder="Max ₹" oninput="renderProducts()">
+        </div>
+      </div>
+
+      <button class="btn btn-ghost" style="width:100%;padding:10px;font-size:10px;margin-top:4px" onclick="clearFilters()">Clear All Filters</button>
     </aside>
+
     <main class="shop-main">
-      <div class="shop-topbar">
-        <div><div class="shop-heading cor" id="shop-heading">The Collection</div><div class="shop-count" id="product-count"></div></div>
-        <select class="sort-select" id="sort-select" onchange="renderProducts()">
-          <option value="default">Sort: Featured</option>
-          <option value="price-asc">Price: Low → High</option>
-          <option value="price-desc">Price: High → Low</option>
-          <option value="name">Name: A–Z</option>
-          <option value="new">Newest First</option>
-        </select>
+      <!-- TOPBAR with separate sort controls -->
+      <div class="shop-topbar" style="flex-direction:column;align-items:stretch;gap:16px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <div class="shop-heading cor" id="shop-heading">The Collection</div>
+            <div class="shop-count" id="product-count"></div>
+          </div>
+          <div class="sort-bar">
+            <div class="sort-group">
+              <span class="sort-group-label">Featured</span>
+              <select class="sort-select-new" id="sort-featured" onchange="renderProducts()">
+                <option value="">All Products</option>
+                <option value="featured">✦ Featured</option>
+                <option value="new">New Arrivals</option>
+                <option value="discount">On Sale / Discount</option>
+                <option value="bestseller">Best Sellers</option>
+              </select>
+            </div>
+            <div class="sort-group">
+              <span class="sort-group-label">Sort by Price</span>
+              <select class="sort-select-new" id="sort-price" onchange="renderProducts()">
+                <option value="">Default Order</option>
+                <option value="price-asc">₹ Low → High</option>
+                <option value="price-desc">₹ High → Low</option>
+              </select>
+            </div>
+            <div class="sort-group">
+              <span class="sort-group-label">Sort by Name</span>
+              <select class="sort-select-new" id="sort-name" onchange="renderProducts()">
+                <option value="">Default</option>
+                <option value="name-asc">A → Z</option>
+                <option value="name-desc">Z → A</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Active filter chips -->
+        <div class="active-filters" id="active-filter-chips"></div>
       </div>
       <div class="product-grid" id="product-grid"></div>
     </main>
@@ -1238,7 +1371,7 @@ let orders=[
 
 // State
 let cart=[],currentProd=null,selSize=null,selColor=null,qtyVal=1;
-let activeFilters={cat:'all',size:null,color:null};
+let activeFilters={cat:'all',size:null,color:null,subcat:null};
 let prevScreen='screen-shop';
 let isAdminLoggedIn=false;
 let dashPeriod='today';
@@ -1303,45 +1436,119 @@ function goTrack(){
 }
 
 /* ══════════════════════════════════════════════
-   PRODUCTS
+   PRODUCTS — SUBCATEGORY + MULTI-SORT
 ══════════════════════════════════════════════ */
+const SUBCAT_MAP={
+  sarees:[1,11],lehengas:[5],kurtis:[11],dresses:[8],tops:[8],palazzos:[8],coats:[2],bridal:[5],
+  shirts:[4],suits:[3],blazers:[7],kurtas:[3],trousers:[3],nehru:[12],bandhgala:[7],
+  boys:[9],girls:[6],infants:[6],'kids-festive':[9,6],'kids-casual':[9],
+  jewellery:[10],bags:[10],footwear:[10],scarves:[10],belts:[10],sunglasses:[10]
+};
+
 function renderProducts(){
   const grid=document.getElementById('product-grid');
   let list=[...products];
-  if(activeFilters.cat&&activeFilters.cat!=='all'&&activeFilters.cat!=='new')list=list.filter(p=>p.cat===activeFilters.cat);
-  if(activeFilters.cat==='new')list=list.filter(p=>p.isNew);
+  if(activeFilters.cat&&activeFilters.cat!=='all')list=list.filter(p=>p.cat===activeFilters.cat);
+  if(activeFilters.subcat){const ids=SUBCAT_MAP[activeFilters.subcat]||[];if(ids.length)list=list.filter(p=>ids.includes(p.id));}
   if(activeFilters.size)list=list.filter(p=>p.sizes.includes(activeFilters.size));
   if(activeFilters.color)list=list.filter(p=>p.colors.includes(activeFilters.color));
   const pMin=parseFloat(document.getElementById('price-min')?.value)||0;
   const pMax=parseFloat(document.getElementById('price-max')?.value)||Infinity;
   list=list.filter(p=>p.price>=pMin&&p.price<=pMax);
-  const sort=document.getElementById('sort-select')?.value||'default';
-  if(sort==='price-asc')list.sort((a,b)=>a.price-b.price);
-  else if(sort==='price-desc')list.sort((a,b)=>b.price-a.price);
-  else if(sort==='name')list.sort((a,b)=>a.name.localeCompare(b.name));
-  else if(sort==='new')list.sort((a,b)=>b.isNew-a.isNew);
+  const featSort=document.getElementById('sort-featured')?.value||'';
+  if(featSort==='new')list=list.filter(p=>p.isNew);
+  else if(featSort==='discount')list=list.filter(p=>p.oldPrice&&p.oldPrice>p.price);
+  else if(featSort==='bestseller')list=list.filter(p=>p.badge==='bestseller');
+  else if(featSort==='featured')list=list.filter(p=>p.badge==='bestseller'||p.badge==='new'||p.isNew);
+  const priceSort=document.getElementById('sort-price')?.value||'';
+  if(priceSort==='price-asc')list.sort((a,b)=>a.price-b.price);
+  else if(priceSort==='price-desc')list.sort((a,b)=>b.price-a.price);
+  const nameSort=document.getElementById('sort-name')?.value||'';
+  if(nameSort==='name-asc')list.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(nameSort==='name-desc')list.sort((a,b)=>b.name.localeCompare(a.name));
   document.getElementById('product-count').textContent=`${list.length} piece${list.length!==1?'s':''}`;
+  updateActiveChips();
+  if(!list.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:80px 0"><div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;color:var(--text2);margin-bottom:12px">No products found</div><div style="font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px">Try adjusting your filters</div><button class="btn btn-ghost btn-sm" onclick="clearFilters()">Clear All Filters</button></div>`;
+    return;
+  }
   grid.innerHTML=list.map(p=>`<div class="product-card" onclick="openProduct(${p.id})">
     <div class="prod-img-wrap">
       ${p.img?`<img src="${p.img}" alt="${p.name}">`:`<div class="prod-placeholder">${p.icon}</div>`}
       ${p.badge?`<div class="prod-badge ${p.badge==='new'?'new-tag':p.badge}">${p.badge==='bestseller'?'Best Seller':p.badge.toUpperCase()}</div>`:''}
-      ${p.stock<=5&&p.stock>0?`<div class="prod-low">Low Stock</div>`:''}
-      ${p.stock===0?`<div class="prod-low" style="background:rgba(100,40,30,0.95)">Sold Out</div>`:''}
+      ${p.oldPrice?`<div style="position:absolute;top:0;right:0;padding:4px 10px;background:var(--red);color:#fff;font-size:9px;letter-spacing:2px;text-transform:uppercase">${Math.round((1-p.price/p.oldPrice)*100)}% OFF</div>`:''}
+      ${p.stock<=5&&p.stock>0&&p.stock!==0?`<div class="prod-low">Low Stock</div>`:''}
+      ${p.stock===0?`<div class="prod-low" style="background:rgba(150,30,20,0.95)">Sold Out</div>`:''}
     </div>
     <div class="prod-info">
-      <div class="prod-cat">${p.cat}</div>
+      <div class="prod-cat">${p.cat}${p.subcat?` · ${p.subcat}`:''}</div>
       <div class="prod-name">${p.name}</div>
       <div class="prod-price-row"><span class="prod-price">₹${p.price.toLocaleString('en-IN')}</span>${p.oldPrice?`<span class="prod-old">₹${p.oldPrice.toLocaleString('en-IN')}</span>`:''}</div>
       <div class="prod-colors">${p.colors.slice(0,5).map(c=>`<div class="color-dot" style="background:${COLORS[c]||c}"></div>`).join('')}</div>
     </div></div>`).join('');
 }
+
+function setCat(cat,el){
+  activeFilters.cat=cat;activeFilters.subcat=null;
+  document.querySelectorAll('.cat-main-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  ['women','men','kids','accessories'].forEach(c=>{const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');});
+  if(cat!=='all'){const p=document.getElementById(`subcat-${cat}`);if(p)p.classList.add('open');document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));}
+  const h={all:'The Collection',women:'Women',men:'Men',kids:'Kids',accessories:'Accessories'};
+  document.getElementById('shop-heading').textContent=h[cat]||'The Collection';
+  renderProducts();
+}
+
+function setSub(sub,el){
+  activeFilters.subcat=activeFilters.subcat===sub?null:sub;
+  document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));
+  if(activeFilters.subcat)el.classList.add('active');
+  renderProducts();
+}
+
 function setFilter(type,val,el){
-  if(type==='cat'){activeFilters.cat=val;document.querySelectorAll('#cat-filters .filter-tag').forEach(t=>t.classList.toggle('active',t.dataset.cat===val));}
-  else if(type==='size'){if(activeFilters.size===val){activeFilters.size=null;el.classList.remove('active');}else{activeFilters.size=val;document.querySelectorAll('#size-filters .filter-tag').forEach(t=>t.classList.remove('active'));el.classList.add('active');}}
+  if(type==='size'){if(activeFilters.size===val){activeFilters.size=null;el.classList.remove('active');}else{activeFilters.size=val;document.querySelectorAll('#size-filters .filter-tag').forEach(t=>t.classList.remove('active'));el.classList.add('active');}}
   else if(type==='color'){if(activeFilters.color===val){activeFilters.color=null;el.classList.remove('active');}else{activeFilters.color=val;document.querySelectorAll('#color-filters .filter-tag').forEach(t=>t.classList.remove('active'));el.classList.add('active');}}
   renderProducts();
 }
-function clearFilters(){activeFilters={cat:'all',size:null,color:null};document.getElementById('price-min').value='';document.getElementById('price-max').value='';document.querySelectorAll('.filter-tag').forEach(t=>t.classList.remove('active'));document.querySelector('[data-cat="all"]').classList.add('active');renderProducts();}
+
+function setPriceRange(min,max,el){
+  const alreadyActive=el.classList.contains('active');
+  document.querySelectorAll('#price-quick-filters .filter-tag').forEach(t=>t.classList.remove('active'));
+  if(alreadyActive){document.getElementById('price-min').value='';document.getElementById('price-max').value='';}
+  else{el.classList.add('active');document.getElementById('price-min').value=min===0?'':min;document.getElementById('price-max').value=max===999999?'':max;}
+  renderProducts();
+}
+
+function clearFilters(){
+  activeFilters={cat:'all',size:null,color:null,subcat:null};
+  document.getElementById('price-min').value='';document.getElementById('price-max').value='';
+  document.querySelectorAll('.filter-tag,.subcat-btn').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.cat-main-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('[data-cat="all"]')?.classList.add('active');
+  ['women','men','kids','accessories'].forEach(c=>{const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');});
+  const sf=document.getElementById('sort-featured');if(sf)sf.value='';
+  const sp=document.getElementById('sort-price');if(sp)sp.value='';
+  const sn=document.getElementById('sort-name');if(sn)sn.value='';
+  document.getElementById('shop-heading').textContent='The Collection';
+  renderProducts();
+}
+
+function updateActiveChips(){
+  const chips=[];
+  if(activeFilters.cat&&activeFilters.cat!=='all')chips.push({label:`Category: ${activeFilters.cat}`,clear:()=>setCat('all',document.querySelector('[data-cat="all"]'))});
+  if(activeFilters.subcat)chips.push({label:`Type: ${activeFilters.subcat}`,clear:()=>{activeFilters.subcat=null;document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));renderProducts();}});
+  if(activeFilters.size)chips.push({label:`Size: ${activeFilters.size}`,clear:()=>{activeFilters.size=null;document.querySelectorAll('#size-filters .filter-tag').forEach(t=>t.classList.remove('active'));renderProducts();}});
+  if(activeFilters.color)chips.push({label:`Color: ${activeFilters.color}`,clear:()=>{activeFilters.color=null;document.querySelectorAll('#color-filters .filter-tag').forEach(t=>t.classList.remove('active'));renderProducts();}});
+  const pMin=document.getElementById('price-min')?.value,pMax=document.getElementById('price-max')?.value;
+  if(pMin||pMax)chips.push({label:`₹${pMin||'0'} – ₹${pMax||'∞'}`,clear:()=>{document.getElementById('price-min').value='';document.getElementById('price-max').value='';document.querySelectorAll('#price-quick-filters .filter-tag').forEach(t=>t.classList.remove('active'));renderProducts();}});
+  const feat=document.getElementById('sort-featured')?.value;
+  if(feat)chips.push({label:feat.charAt(0).toUpperCase()+feat.slice(1),clear:()=>{document.getElementById('sort-featured').value='';renderProducts();}});
+  const el=document.getElementById('active-filter-chips');
+  if(el)el.innerHTML=chips.map((c,i)=>`<div class="af-chip">${c.label}<button onclick="clearChip(${i})">✕</button></div>`).join('');
+  window._chips=chips;
+}
+function clearChip(i){if(window._chips?.[i])window._chips[i].clear();}
 
 function openProduct(id){
   prevScreen='screen-shop';
