@@ -43,7 +43,7 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:400;}
 .gold{color:var(--gold);}
 
 /* ═══════════════ HEADER ═══════════════ */
-#user-header{position:fixed;top:0;left:0;right:0;z-index:200;height:68px;padding:0 48px;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(122,31,43,0.07);}
+#user-header{position:fixed;top:0;left:0;right:0;z-index:300;height:68px;padding:0 24px 0 24px;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(122,31,43,0.07);}
 .logo-wrap{display:flex;flex-direction:column;cursor:pointer;gap:1px;}
 .logo-main{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:6px;color:var(--maroon);line-height:1;}
 .logo-sub{font-size:9px;letter-spacing:7px;color:var(--text3);text-transform:uppercase;}
@@ -467,7 +467,49 @@ input[type=file]{display:none;}
 .empty-orders h3{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--text2);margin-bottom:12px;}
 .empty-orders p{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;}
 
-/* ═══════════════ SUBCATEGORIES ═══════════════ */
+/* ═══════════════ MEGA MENU ═══════════════ */
+.mega-nav{display:flex;gap:0;align-items:stretch;}
+.mega-item{position:relative;display:flex;align-items:center;}
+.mega-trigger{padding:0 18px;height:68px;display:flex;align-items:center;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text2);cursor:pointer;transition:color 0.2s;position:relative;white-space:nowrap;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-weight:500;}
+.mega-trigger::after{content:'';position:absolute;bottom:0;left:18px;right:18px;height:3px;background:var(--maroon);transform:scaleX(0);transition:transform 0.25s;}
+.mega-item:hover .mega-trigger,.mega-trigger.active{color:var(--maroon);}
+.mega-item:hover .mega-trigger::after,.mega-trigger.active::after{transform:scaleX(1);}
+.mega-panel{
+  position:absolute;top:68px;left:50%;transform:translateX(-50%);
+  background:#fff;border:1px solid var(--border);border-top:3px solid var(--maroon);
+  box-shadow:0 8px 40px rgba(122,31,43,0.12);
+  display:none;z-index:500;min-width:800px;padding:32px 36px;
+  animation:fadeIn 0.18s ease;
+}
+.mega-item:hover .mega-panel{display:flex;gap:40px;}
+.mega-col{min-width:140px;flex:1;}
+.mega-col-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--maroon);font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.mega-link{display:block;font-size:13px;color:var(--text2);padding:5px 0;cursor:pointer;transition:color 0.15s;text-decoration:none;letter-spacing:0.3px;}
+.mega-link:hover{color:var(--maroon);padding-left:4px;}
+.mega-link.featured{color:var(--maroon);font-weight:600;}
+/* Simple nav links (non-mega) */
+.simple-nav-link{padding:0 16px;height:68px;display:flex;align-items:center;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text2);cursor:pointer;transition:color 0.2s;position:relative;white-space:nowrap;}
+.simple-nav-link::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:3px;background:var(--maroon);transform:scaleX(0);transition:transform 0.25s;}
+.simple-nav-link:hover,.simple-nav-link.active{color:var(--maroon);}
+.simple-nav-link:hover::after,.simple-nav-link.active::after{transform:scaleX(1);}
+/* Search bar in header */
+.header-search{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border2);padding:8px 14px;cursor:pointer;transition:border-color 0.2s;min-width:200px;}
+.header-search:hover{border-color:var(--maroon);}
+.header-search input{background:transparent;border:none;outline:none;font-size:12px;color:var(--text2);font-family:'DM Sans',sans-serif;width:100%;}
+.header-search input::placeholder{color:var(--text3);}
+.search-icon{color:var(--text3);font-size:14px;flex-shrink:0;}
+/* Search overlay */
+.search-overlay{position:fixed;inset:0;background:rgba(255,255,255,0.96);z-index:600;display:none;align-items:flex-start;justify-content:center;padding-top:100px;}
+.search-overlay.open{display:flex;}
+.search-box-big{width:600px;max-width:90vw;}
+.search-input-big{width:100%;padding:16px 20px;font-size:20px;font-family:'Cormorant Garamond',serif;border:none;border-bottom:2px solid var(--maroon);outline:none;background:transparent;color:var(--text);}
+.search-results{margin-top:24px;}
+.search-result-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;cursor:pointer;}
+.search-result-item:hover{color:var(--maroon);}
+.search-close{position:absolute;top:24px;right:32px;font-size:24px;background:transparent;border:none;color:var(--text3);cursor:pointer;}
+.search-close:hover{color:var(--maroon);}
+
+/* ═══════════════ SUBCATEGORIES (sidebar) ═══════════════ */
 .cat-main-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
 .cat-main-btn{padding:7px 14px;border:1px solid var(--border2);color:var(--text3);font-size:10px;letter-spacing:1.5px;cursor:pointer;transition:all 0.15s;background:transparent;text-transform:uppercase;}
 .cat-main-btn:hover{border-color:var(--maroon);color:var(--maroon);}
@@ -614,21 +656,210 @@ input[type=file]{display:none;}
     <div class="logo-main" id="hdr-logo-text">THE SHOP</div>
     <div class="logo-sub" id="hdr-logo-sub">Luxury Wear</div>
   </div>
-  <nav>
-    <a onclick="goHome()" id="nav-home" class="active">Home</a>
-    <a onclick="goShop()" id="nav-collection">Collection</a>
-    <a onclick="goShop('women')" id="nav-women">Women</a>
-    <a onclick="goShop('men')" id="nav-men">Men</a>
-    <a onclick="goShop('kids')" id="nav-kids">Kids</a>
-    <a onclick="goShop('accessories')" id="nav-accessories">Accessories</a>
-    <a onclick="showStatic('help')">Help</a>
-    <a onclick="goTrack()" id="nav-track">Track Order</a>
-    <a onclick="goMyOrders()" id="nav-myorders">My Orders</a>
+
+  <!-- MEGA NAV -->
+  <nav class="mega-nav" id="mega-nav">
+
+    <!-- Home -->
+    <div class="mega-item">
+      <div class="mega-trigger active" id="nav-home" onclick="goHome()">Home</div>
+    </div>
+
+    <!-- WOMEN -->
+    <div class="mega-item">
+      <div class="mega-trigger" id="nav-women" onclick="goShop('women')">Women</div>
+      <div class="mega-panel">
+        <div class="mega-col">
+          <div class="mega-col-title">Indian & Festive</div>
+          <span class="mega-link featured" onclick="goSubcat('women','sarees')">Sarees</span>
+          <span class="mega-link" onclick="goSubcat('women','lehengas')">Lehengas</span>
+          <span class="mega-link" onclick="goSubcat('women','kurtis')">Kurtis & Kurta Sets</span>
+          <span class="mega-link" onclick="goSubcat('women','salwar')">Salwar Suits</span>
+          <span class="mega-link" onclick="goSubcat('women','anarkali')">Anarkalis</span>
+          <span class="mega-link" onclick="goSubcat('women','bridal')">Bridal Wear</span>
+          <span class="mega-link" onclick="goSubcat('women','dupattas')">Dupattas & Stoles</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Western Wear</div>
+          <span class="mega-link" onclick="goSubcat('women','dresses')">Dresses & Gowns</span>
+          <span class="mega-link" onclick="goSubcat('women','tops')">Tops & Blouses</span>
+          <span class="mega-link" onclick="goSubcat('women','palazzos')">Palazzos & Trousers</span>
+          <span class="mega-link" onclick="goSubcat('women','coats')">Coats & Jackets</span>
+          <span class="mega-link" onclick="goSubcat('women','coords')">Co-ord Sets</span>
+          <span class="mega-link" onclick="goSubcat('women','skirts')">Skirts</span>
+          <span class="mega-link" onclick="goSubcat('women','jumpsuits')">Jumpsuits</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Fabric & Style</div>
+          <span class="mega-link" onclick="goSubcat('women','silk')">Pure Silk</span>
+          <span class="mega-link" onclick="goSubcat('women','linen')">Linen & Cotton</span>
+          <span class="mega-link" onclick="goSubcat('women','cashmere')">Cashmere & Wool</span>
+          <span class="mega-link" onclick="goSubcat('women','embroidered')">Embroidered</span>
+          <span class="mega-link" onclick="goSubcat('women','handwoven')">Handwoven</span>
+          <span class="mega-link" onclick="goSubcat('women','printed')">Printed</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Shop By</div>
+          <span class="mega-link featured" onclick="goShop('new')">New Arrivals ✦</span>
+          <span class="mega-link featured" onclick="goSubcat('women','bestseller')">Best Sellers</span>
+          <span class="mega-link" onclick="goSubcat('women','discount')">On Sale</span>
+          <span class="mega-link" onclick="goSubcat('women','occasion-wedding')">Wedding</span>
+          <span class="mega-link" onclick="goSubcat('women','occasion-party')">Party Wear</span>
+          <span class="mega-link" onclick="goSubcat('women','occasion-casual')">Casual</span>
+          <span class="mega-link" onclick="goSubcat('women','occasion-office')">Office Wear</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEN -->
+    <div class="mega-item">
+      <div class="mega-trigger" id="nav-men" onclick="goShop('men')">Men</div>
+      <div class="mega-panel">
+        <div class="mega-col">
+          <div class="mega-col-title">Topwear</div>
+          <span class="mega-link" onclick="goSubcat('men','shirts')">Formal Shirts</span>
+          <span class="mega-link" onclick="goSubcat('men','casual-shirts')">Casual Shirts</span>
+          <span class="mega-link" onclick="goSubcat('men','kurtas')">Kurtas</span>
+          <span class="mega-link" onclick="goSubcat('men','tshirts')">T-Shirts</span>
+          <span class="mega-link" onclick="goSubcat('men','sweaters')">Sweaters & Sweatshirts</span>
+          <span class="mega-link" onclick="goSubcat('men','coats')">Coats & Jackets</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Indian & Festive</div>
+          <span class="mega-link featured" onclick="goSubcat('men','sherwanis')">Sherwanis</span>
+          <span class="mega-link" onclick="goSubcat('men','kurta-sets')">Kurta Sets</span>
+          <span class="mega-link" onclick="goSubcat('men','nehru')">Nehru Jackets</span>
+          <span class="mega-link" onclick="goSubcat('men','bandhgala')">Bandhgala</span>
+          <span class="mega-link" onclick="goSubcat('men','dhotis')">Dhotis</span>
+          <span class="mega-link" onclick="goSubcat('men','indo-western')">Indo-Western</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Suits & Bottomwear</div>
+          <span class="mega-link" onclick="goSubcat('men','suits')">Suits</span>
+          <span class="mega-link" onclick="goSubcat('men','blazers')">Blazers</span>
+          <span class="mega-link" onclick="goSubcat('men','trousers')">Formal Trousers</span>
+          <span class="mega-link" onclick="goSubcat('men','casual-trousers')">Casual Trousers</span>
+          <span class="mega-link" onclick="goSubcat('men','chinos')">Chinos & Jeans</span>
+          <span class="mega-link" onclick="goSubcat('men','shorts')">Shorts</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Shop By</div>
+          <span class="mega-link featured" onclick="goShop('new')">New Arrivals ✦</span>
+          <span class="mega-link featured" onclick="goSubcat('men','bestseller')">Best Sellers</span>
+          <span class="mega-link" onclick="goSubcat('men','discount')">On Sale</span>
+          <span class="mega-link" onclick="goSubcat('men','occasion-wedding')">Wedding</span>
+          <span class="mega-link" onclick="goSubcat('men','occasion-office')">Office Wear</span>
+          <span class="mega-link" onclick="goSubcat('men','occasion-casual')">Casual</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KIDS -->
+    <div class="mega-item">
+      <div class="mega-trigger" id="nav-kids" onclick="goShop('kids')">Kids</div>
+      <div class="mega-panel" style="min-width:640px">
+        <div class="mega-col">
+          <div class="mega-col-title">Girls</div>
+          <span class="mega-link" onclick="goSubcat('kids','girls-dresses')">Dresses & Frocks</span>
+          <span class="mega-link" onclick="goSubcat('kids','girls-lehengas')">Lehengas</span>
+          <span class="mega-link" onclick="goSubcat('kids','girls-kurtas')">Kurtas & Suits</span>
+          <span class="mega-link" onclick="goSubcat('kids','girls-tops')">Tops & T-Shirts</span>
+          <span class="mega-link" onclick="goSubcat('kids','girls-skirts')">Skirts & Palazzos</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Boys</div>
+          <span class="mega-link" onclick="goSubcat('kids','boys-kurtas')">Kurta Sets</span>
+          <span class="mega-link" onclick="goSubcat('kids','boys-shirts')">Shirts</span>
+          <span class="mega-link" onclick="goSubcat('kids','boys-trousers')">Trousers & Chinos</span>
+          <span class="mega-link" onclick="goSubcat('kids','boys-casual')">T-Shirts & Casuals</span>
+          <span class="mega-link" onclick="goSubcat('kids','boys-blazers')">Blazers & Suits</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">By Age</div>
+          <span class="mega-link" onclick="goSubcat('kids','infants')">Infants (0–2 yrs)</span>
+          <span class="mega-link" onclick="goSubcat('kids','toddler')">Toddler (2–5 yrs)</span>
+          <span class="mega-link" onclick="goSubcat('kids','juniors')">Juniors (6–10 yrs)</span>
+          <span class="mega-link" onclick="goSubcat('kids','tweens')">Tweens (11–15 yrs)</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Occasion</div>
+          <span class="mega-link featured" onclick="goSubcat('kids','festive')">Festive Wear ✦</span>
+          <span class="mega-link" onclick="goSubcat('kids','wedding')">Wedding Wear</span>
+          <span class="mega-link" onclick="goSubcat('kids','casual')">Casual Wear</span>
+          <span class="mega-link" onclick="goSubcat('kids','school')">School Wear</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESSORIES -->
+    <div class="mega-item">
+      <div class="mega-trigger" id="nav-accessories" onclick="goShop('accessories')">Accessories</div>
+      <div class="mega-panel" style="min-width:700px">
+        <div class="mega-col">
+          <div class="mega-col-title">Jewellery</div>
+          <span class="mega-link featured" onclick="goSubcat('accessories','necklaces')">Necklaces & Sets</span>
+          <span class="mega-link" onclick="goSubcat('accessories','earrings')">Earrings</span>
+          <span class="mega-link" onclick="goSubcat('accessories','bangles')">Bangles & Bracelets</span>
+          <span class="mega-link" onclick="goSubcat('accessories','rings')">Rings</span>
+          <span class="mega-link" onclick="goSubcat('accessories','maangtikka')">Maang Tikka</span>
+          <span class="mega-link" onclick="goSubcat('accessories','anklets')">Anklets</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Bags & Clutches</div>
+          <span class="mega-link" onclick="goSubcat('accessories','handbags')">Handbags</span>
+          <span class="mega-link" onclick="goSubcat('accessories','clutches')">Clutches & Potlis</span>
+          <span class="mega-link" onclick="goSubcat('accessories','totes')">Tote Bags</span>
+          <span class="mega-link" onclick="goSubcat('accessories','wallets')">Wallets</span>
+          <span class="mega-link" onclick="goSubcat('accessories','backpacks')">Backpacks</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Footwear</div>
+          <span class="mega-link" onclick="goSubcat('accessories','heels')">Heels & Wedges</span>
+          <span class="mega-link" onclick="goSubcat('accessories','flats')">Flats & Sandals</span>
+          <span class="mega-link" onclick="goSubcat('accessories','kolhapuri')">Kolhapuri & Juttis</span>
+          <span class="mega-link" onclick="goSubcat('accessories','loafers')">Loafers & Moccasins</span>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">More</div>
+          <span class="mega-link" onclick="goSubcat('accessories','scarves')">Scarves & Dupattas</span>
+          <span class="mega-link" onclick="goSubcat('accessories','sunglasses')">Sunglasses & Frames</span>
+          <span class="mega-link" onclick="goSubcat('accessories','watches')">Watches</span>
+          <span class="mega-link" onclick="goSubcat('accessories','belts')">Belts</span>
+          <span class="mega-link" onclick="goSubcat('accessories','perfumes')">Perfumes & Mists</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simple links -->
+    <div class="mega-item">
+      <div class="mega-trigger" onclick="showStatic('help')">Help</div>
+    </div>
+    <div class="mega-item">
+      <div class="mega-trigger" id="nav-track" onclick="goTrack()">Track Order</div>
+    </div>
+    <div class="mega-item">
+      <div class="mega-trigger" id="nav-myorders" onclick="goMyOrders()">My Orders</div>
+    </div>
   </nav>
+
   <div class="header-right">
+    <!-- Search -->
+    <div class="header-search" onclick="openSearch()">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search products..." readonly id="header-search-input">
+    </div>
     <div class="cart-btn" onclick="goCart()">Bag <span id="cart-count" class="cart-count">0</span></div>
   </div>
 </header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay" onclick="closeSearch(event)">
+  <button class="search-close" onclick="closeSearch()">✕</button>
+  <div class="search-box-big">
+    <input class="search-input-big" type="text" id="search-input-big" placeholder="Search for products, fabrics, occasions…" oninput="liveSearch(this.value)">
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
 
 <!-- ═══════════ HOME ═══════════ -->
 <div class="screen active" id="screen-home">
@@ -1583,7 +1814,7 @@ function showScreen(id){
   window.scrollTo(0,0);
 }
 function goHome(){
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.mega-trigger').forEach(a=>a.classList.remove('active'));
   const h=document.getElementById('nav-home');if(h)h.classList.add('active');
   showScreen('screen-home');
 }
@@ -1601,38 +1832,57 @@ function goShop(cat){
   const key=cat||'all';
   activeFilters.cat=(key==='new')?'all':key;
   activeFilters.subcat=null;
-
-  // Sync sidebar category buttons
-  document.querySelectorAll('.cat-main-btn').forEach(b=>{
-    b.classList.toggle('active',b.dataset.cat===activeFilters.cat);
-  });
-
-  // Hide all subcat panels, open relevant one
-  ['women','men','kids','accessories'].forEach(c=>{
-    const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');
-  });
-  if(activeFilters.cat!=='all'){
-    const p=document.getElementById(`subcat-${activeFilters.cat}`);
-    if(p)p.classList.add('open');
-  }
+  document.querySelectorAll('.cat-main-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat===activeFilters.cat));
+  ['women','men','kids','accessories'].forEach(c=>{const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');});
+  if(activeFilters.cat!=='all'){const p=document.getElementById(`subcat-${activeFilters.cat}`);if(p)p.classList.add('open');}
   document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));
-
-  // Update page heading & sub-label
   const m=CAT_META[key]||CAT_META.all;
-  const hEl=document.getElementById('shop-heading');
-  if(hEl)hEl.textContent=m.heading;
-  const sEl=document.getElementById('shop-subheading');
-  if(sEl)sEl.textContent=m.sub;
+  const hEl=document.getElementById('shop-heading');if(hEl)hEl.textContent=m.heading;
+  const sEl=document.getElementById('shop-subheading');if(sEl)sEl.textContent=m.sub;
+  document.querySelectorAll('.mega-trigger').forEach(a=>a.classList.remove('active'));
+  const navMap={all:'nav-collection',women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories',new:'nav-women'};
+  const navEl=document.getElementById(navMap[key]||'nav-collection');if(navEl)navEl.classList.add('active');
+  showScreen('screen-shop');renderProducts();
+}
 
-  // Sync nav active underline
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-  const navMap={all:'nav-collection',women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories'};
-  const navId=navMap[activeFilters.cat]||'nav-collection';
-  const navEl=document.getElementById(navId);
-  if(navEl)navEl.classList.add('active');
+function goSubcat(cat,sub){
+  activeFilters.cat=cat;activeFilters.subcat=sub;
+  document.querySelectorAll('.cat-main-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  ['women','men','kids','accessories'].forEach(c=>{const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');});
+  const catPanel=document.getElementById(`subcat-${cat}`);if(catPanel)catPanel.classList.add('open');
+  document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.toggle('active',b.dataset.sub===sub));
+  const m=CAT_META[cat]||CAT_META.all;
+  const hEl=document.getElementById('shop-heading');if(hEl)hEl.textContent=m.heading;
+  const sEl=document.getElementById('shop-subheading');if(sEl)sEl.textContent=m.sub;
+  document.querySelectorAll('.mega-trigger').forEach(a=>a.classList.remove('active'));
+  const navMap={women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories'};
+  const navEl=document.getElementById(navMap[cat]);if(navEl)navEl.classList.add('active');
+  showScreen('screen-shop');renderProducts();
+}
 
-  showScreen('screen-shop');
-  renderProducts();
+function openSearch(){
+  document.getElementById('search-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('search-input-big')?.focus(),100);
+}
+function closeSearch(e){
+  if(!e||e.target===document.getElementById('search-overlay')||e.currentTarget?.classList.contains('search-close')){
+    document.getElementById('search-overlay').classList.remove('open');
+    const inp=document.getElementById('search-input-big');if(inp)inp.value='';
+    document.getElementById('search-results').innerHTML='';
+  }
+}
+function liveSearch(q){
+  const res=document.getElementById('search-results');
+  if(!q||q.length<2){res.innerHTML='';return;}
+  const hits=products.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||p.cat.toLowerCase().includes(q.toLowerCase())||(p.desc&&p.desc.toLowerCase().includes(q.toLowerCase()))).slice(0,8);
+  if(!hits.length){res.innerHTML=`<div style="color:var(--text3);font-size:13px;padding:20px 0;letter-spacing:1px">No products found for "${q}"</div>`;return;}
+  res.innerHTML=hits.map(p=>`<div class="search-result-item" onclick="closeSearch();openProduct(${p.id})">
+    <div style="width:44px;height:56px;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden">
+      ${p.img?`<img src="${p.img}" style="width:100%;height:100%;object-fit:cover">`:`<span style="font-size:22px;opacity:0.2;color:var(--maroon)">${p.icon}</span>`}
+    </div>
+    <div><div style="font-size:14px;color:var(--text);font-weight:500">${p.name}</div><div style="font-size:11px;color:var(--text3);text-transform:capitalize;margin-top:2px">${p.cat}</div></div>
+    <div style="margin-left:auto;font-size:14px;color:var(--maroon);font-weight:700;padding-left:16px">&#8377;${p.price.toLocaleString('en-IN')}</div>
+  </div>`).join('');
 }
 function goCart(){renderCart();showScreen('screen-cart');}
 function goBack(){showScreen(prevScreen);}
@@ -1712,9 +1962,9 @@ function setCat(cat,el){
   const hEl=document.getElementById('shop-heading');if(hEl)hEl.textContent=m.heading;
   const sEl=document.getElementById('shop-subheading');if(sEl)sEl.textContent=m.sub;
   // Sync nav
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-  const navMap={all:'nav-collection',women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories'};
-  const navEl=document.getElementById(navMap[cat]||'nav-collection');if(navEl)navEl.classList.add('active');
+  document.querySelectorAll('.mega-trigger').forEach(a=>a.classList.remove('active'));
+  const navMapSC={all:'nav-collection',women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories'};
+  const navElSC=document.getElementById(navMapSC[cat]||'nav-collection');if(navElSC)navElSC.classList.add('active');
   renderProducts();
 }
 
@@ -1751,7 +2001,7 @@ function clearFilters(){
   const sn=document.getElementById('sort-name');if(sn)sn.value='';
   document.getElementById('shop-heading').textContent='The Collection';
   const sEl=document.getElementById('shop-subheading');if(sEl)sEl.textContent='All our pieces — women, men, kids & accessories';
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.mega-trigger').forEach(a=>a.classList.remove('active'));
   const nc=document.getElementById('nav-collection');if(nc)nc.classList.add('active');
   renderProducts();
 }
