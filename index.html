@@ -616,10 +616,11 @@ input[type=file]{display:none;}
   </div>
   <nav>
     <a onclick="goHome()" id="nav-home" class="active">Home</a>
-    <a onclick="goShop()">Collection</a>
-    <a onclick="goShop('women')">Women</a>
-    <a onclick="goShop('men')">Men</a>
-    <a onclick="goShop('kids')">Kids</a>
+    <a onclick="goShop()" id="nav-collection">Collection</a>
+    <a onclick="goShop('women')" id="nav-women">Women</a>
+    <a onclick="goShop('men')" id="nav-men">Men</a>
+    <a onclick="goShop('kids')" id="nav-kids">Kids</a>
+    <a onclick="goShop('accessories')" id="nav-accessories">Accessories</a>
     <a onclick="showStatic('help')">Help</a>
     <a onclick="goTrack()" id="nav-track">Track Order</a>
     <a onclick="goMyOrders()" id="nav-myorders">My Orders</a>
@@ -792,6 +793,7 @@ input[type=file]{display:none;}
         <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
           <div>
             <div class="shop-heading cor" id="shop-heading">The Collection</div>
+            <div id="shop-subheading" style="font-size:12px;color:var(--text3);letter-spacing:1px;margin-top:5px;margin-bottom:4px;">All our pieces — women, men, kids &amp; accessories</div>
             <div class="shop-count" id="product-count"></div>
           </div>
           <div class="sort-bar">
@@ -1517,10 +1519,57 @@ function showScreen(id){
   document.getElementById('user-header').style.display=(id==='screen-admin')?'none':'flex';
   window.scrollTo(0,0);
 }
-function goHome(){showScreen('screen-home');}
+function goHome(){
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  const h=document.getElementById('nav-home');if(h)h.classList.add('active');
+  showScreen('screen-home');
+}
+/* ── Page headings & descriptions per category ── */
+const CAT_META={
+  all:{heading:'The Collection',sub:'All our pieces — women, men, kids & accessories',nav:'Collection'},
+  women:{heading:'Women',sub:'Sarees, lehengas, kurtis, dresses & more',nav:'Women'},
+  men:{heading:'Men',sub:'Suits, shirts, blazers, kurtas & more',nav:'Men'},
+  kids:{heading:'Kids',sub:'Boys, girls & festive wear for little ones',nav:'Kids'},
+  accessories:{heading:'Accessories',sub:'Jewellery, bags, footwear, scarves & more',nav:'Accessories'},
+  new:{heading:'New Arrivals',sub:'The latest additions to our collection',nav:'Collection'},
+};
+
 function goShop(cat){
-  if(cat){activeFilters.cat=cat;document.querySelectorAll('#cat-filters .filter-tag').forEach(t=>t.classList.toggle('active',t.dataset.cat===cat));}
-  showScreen('screen-shop');renderProducts();
+  const key=cat||'all';
+  activeFilters.cat=(key==='new')?'all':key;
+  activeFilters.subcat=null;
+
+  // Sync sidebar category buttons
+  document.querySelectorAll('.cat-main-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.cat===activeFilters.cat);
+  });
+
+  // Hide all subcat panels, open relevant one
+  ['women','men','kids','accessories'].forEach(c=>{
+    const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');
+  });
+  if(activeFilters.cat!=='all'){
+    const p=document.getElementById(`subcat-${activeFilters.cat}`);
+    if(p)p.classList.add('open');
+  }
+  document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));
+
+  // Update page heading & sub-label
+  const m=CAT_META[key]||CAT_META.all;
+  const hEl=document.getElementById('shop-heading');
+  if(hEl)hEl.textContent=m.heading;
+  const sEl=document.getElementById('shop-subheading');
+  if(sEl)sEl.textContent=m.sub;
+
+  // Sync nav active underline
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  const navMap={all:'nav-collection',women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories'};
+  const navId=navMap[activeFilters.cat]||'nav-collection';
+  const navEl=document.getElementById(navId);
+  if(navEl)navEl.classList.add('active');
+
+  showScreen('screen-shop');
+  renderProducts();
 }
 function goCart(){renderCart();showScreen('screen-cart');}
 function goBack(){showScreen(prevScreen);}
@@ -1595,8 +1644,14 @@ function setCat(cat,el){
   el.classList.add('active');
   ['women','men','kids','accessories'].forEach(c=>{const p=document.getElementById(`subcat-${c}`);if(p)p.classList.remove('open');});
   if(cat!=='all'){const p=document.getElementById(`subcat-${cat}`);if(p)p.classList.add('open');document.querySelectorAll('.subcat-btn').forEach(b=>b.classList.remove('active'));}
-  const h={all:'The Collection',women:'Women',men:'Men',kids:'Kids',accessories:'Accessories'};
-  document.getElementById('shop-heading').textContent=h[cat]||'The Collection';
+  // Update heading & sub-label
+  const m=CAT_META[cat]||CAT_META.all;
+  const hEl=document.getElementById('shop-heading');if(hEl)hEl.textContent=m.heading;
+  const sEl=document.getElementById('shop-subheading');if(sEl)sEl.textContent=m.sub;
+  // Sync nav
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  const navMap={all:'nav-collection',women:'nav-women',men:'nav-men',kids:'nav-kids',accessories:'nav-accessories'};
+  const navEl=document.getElementById(navMap[cat]||'nav-collection');if(navEl)navEl.classList.add('active');
   renderProducts();
 }
 
@@ -1632,6 +1687,9 @@ function clearFilters(){
   const sp=document.getElementById('sort-price');if(sp)sp.value='';
   const sn=document.getElementById('sort-name');if(sn)sn.value='';
   document.getElementById('shop-heading').textContent='The Collection';
+  const sEl=document.getElementById('shop-subheading');if(sEl)sEl.textContent='All our pieces — women, men, kids & accessories';
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  const nc=document.getElementById('nav-collection');if(nc)nc.classList.add('active');
   renderProducts();
 }
 
@@ -1680,7 +1738,7 @@ function openProduct(id){
 function selSizeFn(s,el){selSize=s;document.querySelectorAll('.size-btn').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');updateAtcBtn();}
 function selColorFn(c,el){selColor=c;document.querySelectorAll('.color-swatch').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
 function updateAtcBtn(){const b=document.getElementById('atc-btn'),n=document.getElementById('lock-note');b.disabled=!selSize;n.style.display=selSize?'none':'block';}
-function changeQty(d){qtyVal=Math.max(1,qtyVal+d);document.getElementById('qty-val').value=qtyVal;}
+function changeQty(d){qtyVal=Math.max(1,Math.min(3,qtyVal+d));document.getElementById('qty-val').value=qtyVal;if(qtyVal===3&&d>0)showToast('Maximum 3 units per item allowed');}
 function addToCart(){if(!selSize||!currentProd)return;cart.push({id:Date.now(),product:currentProd,size:selSize,color:selColor,qty:qtyVal});updateCartCount();showToast(`${currentProd.name} added to your bag`);}
 function updateCartCount(){const t=cart.reduce((s,i)=>s+i.qty,0);const c=document.getElementById('cart-count');c.textContent=t;c.style.display=t>0?'flex':'none';}
 
@@ -1708,7 +1766,7 @@ function renderCart(){
   const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
   foot.innerHTML=`<div class="cart-summary"><div class="cart-total"><span class="cart-total-label">Total</span><span class="cart-total-val">₹${sub.toLocaleString('en-IN')}</span></div><button class="btn btn-gold" onclick="goCheckout()">Proceed to Checkout →</button></div>`;
 }
-function chgCartQty(id,d){const i=cart.find(x=>x.id===id);if(!i)return;i.qty=Math.max(1,i.qty+d);updateCartCount();renderCart();}
+function chgCartQty(id,d){const i=cart.find(x=>x.id===id);if(!i)return;const newQty=Math.max(1,Math.min(3,i.qty+d));if(newQty===3&&d>0)showToast('Maximum 3 units per item');i.qty=newQty;updateCartCount();renderCart();}
 function removeCart(id){cart=cart.filter(i=>i.id!==id);updateCartCount();renderCart();}
 
 /* ══════════════════════════════════════════════
@@ -1804,6 +1862,42 @@ function goCheckout(){
   showScreen('screen-checkout');
 }
 function goCoStep(s){
+  // Validate shipping details before proceeding to payment
+  if(s===2){
+    const fname=document.getElementById('f-fname').value.trim();
+    const lname=document.getElementById('f-lname').value.trim();
+    const email=document.getElementById('f-email').value.trim();
+    const phone=document.getElementById('f-phone').value.trim();
+    const addr1=document.getElementById('f-addr1').value.trim();
+    const city=document.getElementById('f-city').value.trim();
+    const state=document.getElementById('f-state').value;
+    const pin=document.getElementById('f-pin').value.trim();
+    const errors=[];
+    if(!fname)errors.push('First Name');
+    if(!lname)errors.push('Last Name');
+    if(!email||!email.includes('@'))errors.push('Valid Email');
+    if(!phone||phone.length<10)errors.push('Phone Number (min 10 digits)');
+    if(!addr1)errors.push('Address Line 1');
+    if(!city)errors.push('City');
+    if(!state)errors.push('State');
+    if(!pin||pin.length<6)errors.push('PIN Code (6 digits)');
+    if(errors.length>0){
+      showToast(`Please fill in: ${errors.slice(0,2).join(', ')}${errors.length>2?' & more':''}`);
+      // Highlight empty fields in red
+      const fields=[
+        {id:'f-fname',val:fname},{id:'f-lname',val:lname},
+        {id:'f-email',val:email&&email.includes('@')?email:''},{id:'f-phone',val:phone.length>=10?phone:''},
+        {id:'f-addr1',val:addr1},{id:'f-city',val:city},
+        {id:'f-state',val:state},{id:'f-pin',val:pin.length>=6?pin:''}
+      ];
+      fields.forEach(f=>{
+        const el=document.getElementById(f.id);
+        if(!el)return;
+        if(!f.val){el.style.borderColor='var(--red)';el.style.background='rgba(220,38,38,0.03)';el.addEventListener('input',()=>{el.style.borderColor='';el.style.background='';},{once:true});}
+      });
+      return; // Block navigation to payment
+    }
+  }
   [1,2,3].forEach(n=>{
     const el=document.getElementById(`co-step-${n}`);if(el)el.style.display=n===s?'block':'none';
     const st=document.getElementById(`step${n}`);if(st){st.className='step';if(n<s)st.classList.add('done');else if(n===s)st.classList.add('active');}
