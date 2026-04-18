@@ -628,10 +628,15 @@ input[type=file]{display:none;}
   </div>
   <footer class="site-footer">
     <div class="footer-grid">
-      <div class="fc fc-brand"><h4 id="footer-brand-name">The Shop</h4><p id="footer-brand-desc">Luxury wear curated for those who appreciate the finest craftsmanship. Every piece tells a story.</p></div>
+      <div class="fc fc-brand">
+        <h4 id="footer-brand-name">The Shop</h4>
+        <p id="footer-brand-desc">Luxury wear curated for those who appreciate the finest craftsmanship. Every piece tells a story.</p>
+        <!-- SOCIAL MEDIA ICONS -->
+        <div class="social-row" id="footer-socials" style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap"></div>
+      </div>
       <div class="fc"><h4>Shop</h4><a onclick="goShop('women')">Women</a><a onclick="goShop('men')">Men</a><a onclick="goShop('kids')">Kids</a><a onclick="goShop('accessories')">Accessories</a></div>
       <div class="fc"><h4>Help</h4><a onclick="showStatic('help')">Help Centre</a><a onclick="showStatic('returns')">Returns & Exchanges</a><a onclick="showStatic('terms')">Terms of Service</a><a onclick="showStatic('privacy')">Privacy Policy</a><a onclick="showStatic('shipping')">Shipping Info</a></div>
-      <div class="fc"><h4>Contact</h4><a id="footer-email">support@theshop.in</a><a id="footer-phone">+91 44 4567 8900</a><a id="footer-addr">Chennai, Tamil Nadu</a></div>
+      <div class="fc"><h4>Contact</h4><a id="footer-email">support@theshop.in</a><a id="footer-phone">+91 44 4567 8900</a><a id="footer-addr">Chennai, Tamil Nadu</a><br><div class="social-row" id="footer-socials-2" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"></div></div>
     </div>
     <div class="footer-bottom">
       <p id="footer-copy">© 2025 The Shop Luxury Wear Pvt. Ltd.</p>
@@ -1069,27 +1074,49 @@ input[type=file]{display:none;}
             <button class="period-btn" onclick="setPeriod('month',this)">This Month</button>
           </div>
         </div>
-        <div class="stat-grid">
+
+        <!-- KPI ROW -->
+        <div class="stat-grid" style="margin-bottom:28px">
           <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-val g" id="s-rev">₹0</div><div class="stat-delta up" id="s-rev-d"></div></div>
           <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-val" id="s-ord">0</div><div class="stat-delta up" id="s-ord-d"></div></div>
           <div class="stat-card"><div class="stat-label">Avg Order Value</div><div class="stat-val g" id="s-avg">₹0</div><div class="stat-delta" style="color:var(--text3)">per transaction</div></div>
-          <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-val" id="s-pend">0</div><div class="stat-delta down" id="s-pend-d">Needs attention</div></div>
+          <div class="stat-card"><div class="stat-label">Pending Orders</div><div class="stat-val" id="s-pend">0</div><div class="stat-delta down">Needs attention</div></div>
         </div>
-        <div class="chart-card">
-          <div class="chart-head"><div><div class="chart-title">Revenue Breakdown</div><div class="chart-total" id="chart-total">₹0</div></div></div>
-          <div class="bar-row" id="rev-chart"></div>
-          <div class="b-labels" id="rev-labels"></div>
-        </div>
-        <div class="chart-2col">
+
+        <!-- TWO COLUMN: Chart + Category -->
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:20px">
+          <!-- Bar chart -->
           <div class="chart-card" style="margin-bottom:0">
-            <div class="chart-head"><div class="chart-title">Top Products</div></div>
-            <div id="top-prods"></div>
+            <div class="chart-head">
+              <div><div class="chart-title">Revenue Breakdown</div><div class="chart-total" id="chart-total">₹0</div></div>
+            </div>
+            <div class="bar-row" id="rev-chart"></div>
+            <div class="b-labels" id="rev-labels"></div>
           </div>
+          <!-- Category breakdown -->
           <div class="chart-card" style="margin-bottom:0">
             <div class="chart-head"><div class="chart-title">Sales by Category</div></div>
             <div id="cat-breakdown"></div>
           </div>
         </div>
+
+        <!-- TWO COLUMN: Top Products list + Recent Orders list -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+          <!-- Top products — plain list, no scroll -->
+          <div class="chart-card" style="margin-bottom:0">
+            <div class="chart-head"><div class="chart-title">Top 5 Products</div></div>
+            <div id="top-prods"></div>
+          </div>
+          <!-- Recent orders — plain list -->
+          <div class="chart-card" style="margin-bottom:0">
+            <div class="chart-head"><div class="chart-title">Recent Orders</div><button class="btn btn-ghost btn-xs" onclick="aTab('orders')">View All →</button></div>
+            <div id="dash-recent-orders"></div>
+          </div>
+        </div>
+
+        <!-- LOW STOCK ALERT — full width -->
+        <div id="dash-low-stock"></div>
+
       </div>
 
       <!-- ORDERS -->
@@ -1202,6 +1229,23 @@ input[type=file]{display:none;}
             <div style="background:var(--surface);border:1px solid var(--border2);padding:14px 18px;margin-top:20px;border-left:3px solid var(--gold)">
               <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Live Preview</div>
               <div style="font-size:12px;color:var(--text2);line-height:1.9" id="settings-live-preview">Changes will appear here after saving.</div>
+            </div>
+          </div>
+          <!-- Social Media -->
+          <div class="settings-card" style="grid-column:1/-1">
+            <div class="settings-card-title">Social Media Links</div>
+            <p style="font-size:12px;color:var(--text3);margin-bottom:24px;line-height:1.8">These links appear as clickable icons in the footer of your store. Leave a field empty to hide that platform.</p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+              <div class="settings-field"><label class="settings-label">📸 Instagram URL</label><input class="settings-input" id="set-instagram" type="url" placeholder="https://instagram.com/yourstore"></div>
+              <div class="settings-field"><label class="settings-label">📘 Facebook URL</label><input class="settings-input" id="set-facebook" type="url" placeholder="https://facebook.com/yourstore"></div>
+              <div class="settings-field"><label class="settings-label">🐦 X / Twitter URL</label><input class="settings-input" id="set-twitter" type="url" placeholder="https://x.com/yourstore"></div>
+              <div class="settings-field"><label class="settings-label">▶ YouTube URL</label><input class="settings-input" id="set-youtube" type="url" placeholder="https://youtube.com/@yourstore"></div>
+              <div class="settings-field"><label class="settings-label">📌 Pinterest URL</label><input class="settings-input" id="set-pinterest" type="url" placeholder="https://pinterest.com/yourstore"></div>
+              <div class="settings-field"><label class="settings-label">💼 LinkedIn URL</label><input class="settings-input" id="set-linkedin" type="url" placeholder="https://linkedin.com/company/yourstore"></div>
+            </div>
+            <div style="margin-top:20px;padding:16px 20px;background:var(--surface);border:1px solid var(--border)">
+              <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Footer Preview</div>
+              <div id="social-preview" style="display:flex;gap:10px;flex-wrap:wrap"></div>
             </div>
           </div>
         </div>
@@ -1342,7 +1386,8 @@ let storeSettings={
   phone:'+91 44 4567 8900',hours:'Mon–Sat, 9am–7pm IST',
   copy:'© 2025 The Shop Luxury Wear Pvt. Ltd.',
   shipThresh:5000,returnDays:15,lowThresh:5,gst:18,
-  adminUser:'admin',adminPass:'admin@shop'
+  adminUser:'admin',adminPass:'admin@shop',
+  instagram:'',facebook:'',twitter:'',youtube:'',pinterest:'',linkedin:''
 };
 
 let products=[
@@ -1911,15 +1956,60 @@ function renderDashboard(){
   document.getElementById('s-ord-d').textContent=dashPeriod==='today'?'↑ 3 vs yesterday':dashPeriod==='week'?'↑ 8 vs last week':'↑ 11 vs last month';
   document.getElementById('chart-total').textContent=`₹${rev.toLocaleString('en-IN')}`;
   const max=Math.max(...h.vals);
-  document.getElementById('rev-chart').innerHTML=h.vals.map((v,i)=>`<div class="b-bar ${v===max?'hi':''}" style="height:${Math.max(3,Math.round(v/max*100))}%" data-v="₹${v.toLocaleString('en-IN')}"></div>`).join('');
+  document.getElementById('rev-chart').innerHTML=h.vals.map((v)=>`<div class="b-bar ${v===max?'hi':''}" style="height:${Math.max(3,Math.round(v/max*100))}%" data-v="₹${v.toLocaleString('en-IN')}"></div>`).join('');
   document.getElementById('rev-labels').innerHTML=h.bars.map(b=>`<div class="b-lbl">${b}</div>`).join('');
-  document.getElementById('top-prods').innerHTML=[
-    {name:'Silk Lehenga Set',cat:'Women',rev:45000},{name:'Cashmere Shawl Coat',cat:'Women',rev:32000},
-    {name:'Classic Blazer',cat:'Men',rev:22000},{name:'Midnight Silk Saree',cat:'Women',rev:18500},{name:'Linen Bandi Suit',cat:'Men',rev:14500}
-  ].map((p,i)=>`<div class="top-prod-row"><div class="top-rank">${i+1}</div><div class="top-info"><div class="top-name">${p.name}</div><div class="top-cat">${p.cat}</div></div><div class="top-rev">₹${p.rev.toLocaleString('en-IN')}</div></div>`).join('');
+  /* Top 5 — clean list one by one */
+  const topData=[
+    {name:'Silk Lehenga Set',cat:'Women',rev:45000,sold:12},
+    {name:'Cashmere Shawl Coat',cat:'Women',rev:32000,sold:8},
+    {name:'Classic Blazer',cat:'Men',rev:22000,sold:15},
+    {name:'Midnight Silk Saree',cat:'Women',rev:18500,sold:7},
+    {name:'Linen Bandi Suit',cat:'Men',rev:14500,sold:10}
+  ];
+  document.getElementById('top-prods').innerHTML=topData.map((p,i)=>`
+    <div style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);${i===4?'border-bottom:none':''}">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--text4);width:22px;flex-shrink:0">${i+1}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;color:var(--text)">${p.name}</div>
+        <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:2px">${p.cat} · ${p.sold} sold</div>
+      </div>
+      <div style="font-size:13px;color:var(--gold);font-weight:600">₹${p.rev.toLocaleString('en-IN')}</div>
+    </div>`).join('');
+  /* Category % bars */
   document.getElementById('cat-breakdown').innerHTML=[
-    {l:'Women',p:52,c:'#c9922e'},{l:'Men',p:28,c:'var(--blue-light)'},{l:'Kids',p:12,c:'var(--green-light)'},{l:'Accessories',p:8,c:'var(--red-light)'}
-  ].map(c=>`<div class="cat-bar-row"><span class="cat-lbl">${c.l}</span><div class="cat-track"><div class="cat-fill" style="width:${c.p}%;background:${c.c}"></div></div><span class="cat-pct">${c.p}%</span></div>`).join('');
+    {l:'Women',p:52,c:'#D4AF37'},{l:'Men',p:28,c:'var(--blue-light)'},{l:'Kids',p:12,c:'var(--green-light)'},{l:'Accessories',p:8,c:'var(--red-light)'}
+  ].map(c=>`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <span style="font-size:10px;color:var(--text2);width:90px;flex-shrink:0">${c.l}</span>
+      <div style="flex:1;height:5px;background:var(--surface2)"><div style="height:100%;background:${c.c};width:${c.p}%"></div></div>
+      <span style="font-size:10px;color:var(--text3);width:28px;text-align:right">${c.p}%</span>
+    </div>`).join('');
+  /* Recent orders — listed one by one, no scroll */
+  const recent=orders.slice(0,5);
+  const roEl=document.getElementById('dash-recent-orders');
+  if(roEl)roEl.innerHTML=recent.length?recent.map(o=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)">
+      <div style="flex:1">
+        <div style="font-size:12px;color:var(--gold);font-weight:600;letter-spacing:1px">${o.id}</div>
+        <div style="font-size:13px;color:var(--text);margin-top:2px">${o.customer}</div>
+        <div style="font-size:10px;color:var(--text3);letter-spacing:1px;margin-top:1px">${o.date}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;color:var(--gold);font-weight:600">₹${o.total.toLocaleString('en-IN')}</div>
+        <span class="s-badge ${o.status}" style="margin-top:4px;display:inline-block">${o.status}</span>
+      </div>
+    </div>`).join(''):`<div style="color:var(--text3);font-size:13px;padding:24px 0;text-align:center">No orders yet</div>`;
+  /* Low stock section */
+  const thresh=storeSettings.lowThresh||5;
+  const lowItems=products.filter(p=>p.stock<=thresh);
+  const lsEl=document.getElementById('dash-low-stock');
+  if(lsEl)lsEl.innerHTML=lowItems.length?`<div class="alert-box" style="margin-top:0">
+    <div class="alert-icon">⚠</div>
+    <div style="flex:1">
+      <div class="alert-title">Low Stock — ${lowItems.length} product${lowItems.length>1?'s':''} need restocking</div>
+      ${lowItems.map(p=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(220,38,38,0.15);font-size:12px"><span style="color:var(--text)">${p.name}</span><span style="color:var(--red-light);font-weight:600">${p.stock} unit${p.stock!==1?'s':''} left</span></div>`).join('')}
+      <button class="btn btn-danger" style="margin-top:12px;font-size:10px;padding:7px 18px" onclick="aTab('inventory')">Manage Inventory →</button>
+    </div></div>`:'';
 }
 
 /* ORDERS */
@@ -2048,9 +2138,12 @@ function saveProduct(){
     badge:document.getElementById('ap-badge').value,icon:document.getElementById('ap-icon').value||'✦',
     material:document.getElementById('ap-material').value,occasion:document.getElementById('ap-occasion').value,
     care:document.getElementById('ap-care').value,isNew:false,img:pendingImgData};
-  if(editProdId){const idx=products.findIndex(p=>p.id===editProdId);products[idx]={...products[idx],...data};showToast('Product updated');}
-  else{products.push({id:Date.now(),...data});showToast('Product added');}
-  closeProdModal();renderProds();renderInventory();
+  if(editProdId){const idx=products.findIndex(p=>p.id===editProdId);products[idx]={...products[idx],...data};showToast('Product updated ✓ Image applied to shop');}
+  else{products.push({id:Date.now(),...data});showToast('Product added to shop ✓');}
+  closeProdModal();
+  renderProds();        // refresh admin products table
+  renderInventory();    // refresh admin inventory
+  renderProducts();     // ← FIX: refresh user-facing shop so image appears immediately
 }
 function delProd(id){if(confirm('Delete this product?')){products=products.filter(p=>p.id!==id);renderProds();renderInventory();showToast('Product deleted');}}
 function renderProds(){
@@ -2117,7 +2210,11 @@ function loadSettings(){
   document.getElementById('set-low-thresh').value=storeSettings.lowThresh;
   document.getElementById('set-gst').value=storeSettings.gst;
   document.getElementById('set-user').value=storeSettings.adminUser;
-  previewLogo();
+  // social media
+  ['instagram','facebook','twitter','youtube','pinterest','linkedin'].forEach(k=>{
+    const el=document.getElementById(`set-${k}`);if(el)el.value=storeSettings[k]||'';
+  });
+  previewLogo();updateSocialPreview();
 }
 function previewLogo(){
   const n=document.getElementById('set-name')?.value||storeSettings.name;
@@ -2141,7 +2238,11 @@ function saveSettings(){
   storeSettings.lowThresh=parseInt(document.getElementById('set-low-thresh').value)||5;
   storeSettings.gst=parseInt(document.getElementById('set-gst').value)||18;
   storeSettings.adminUser=document.getElementById('set-user').value||storeSettings.adminUser;
-  applySettings();showToast('Settings saved successfully');
+  // social media
+  ['instagram','facebook','twitter','youtube','pinterest','linkedin'].forEach(k=>{
+    const el=document.getElementById(`set-${k}`);if(el)storeSettings[k]=el.value.trim();
+  });
+  applySettings();showToast('Settings saved ✓');
   document.getElementById('settings-live-preview').innerHTML=`Store: <strong style="color:var(--text)">${storeSettings.name}</strong> — Free shipping over ₹${storeSettings.shipThresh.toLocaleString('en-IN')} — ${storeSettings.returnDays}-day returns — ${storeSettings.gst}% GST`;
 }
 function applySettings(){
@@ -2161,6 +2262,8 @@ function applySettings(){
   document.getElementById('footer-phone').textContent=storeSettings.phone;
   document.getElementById('footer-addr').textContent=storeSettings.addr;
   document.getElementById('footer-copy').textContent=storeSettings.copy;
+  // Render social icons in footer
+  renderSocialIcons();
   // Logo image in header
   const logoWrap=document.querySelector('.logo-wrap');
   if(storeSettings.logoImg){
@@ -2183,7 +2286,49 @@ function changePassword(){
   document.getElementById('set-pass-old').value='';document.getElementById('set-pass-new').value='';document.getElementById('set-pass-conf').value='';
   showToast('Password updated successfully');
 }
-function resetSettings(){if(confirm('Reset all settings to defaults?')){storeSettings={name:'THE SHOP',tagline:'Luxury Wear',logoImg:null,desc:'Luxury wear curated for those who appreciate the finest craftsmanship.',addr:'Chennai, Tamil Nadu',email:'support@theshop.in',phone:'+91 44 4567 8900',hours:'Mon–Sat, 9am–7pm IST',copy:'© 2025 The Shop Luxury Wear Pvt. Ltd.',shipThresh:5000,returnDays:15,lowThresh:5,gst:18,adminUser:'admin',adminPass:'admin@shop'};loadSettings();applySettings();showToast('Settings reset to defaults');}}
+function resetSettings(){if(confirm('Reset all settings to defaults?')){storeSettings={name:'THE SHOP',tagline:'Luxury Wear',logoImg:null,desc:'Luxury wear curated for those who appreciate the finest craftsmanship.',addr:'Chennai, Tamil Nadu',email:'support@theshop.in',phone:'+91 44 4567 8900',hours:'Mon–Sat, 9am–7pm IST',copy:'© 2025 The Shop Luxury Wear Pvt. Ltd.',shipThresh:5000,returnDays:15,lowThresh:5,gst:18,adminUser:'admin',adminPass:'admin@shop',instagram:'',facebook:'',twitter:'',youtube:'',pinterest:'',linkedin:''};loadSettings();applySettings();showToast('Settings reset to defaults');}}
+
+/* ══════════════════════════════════════════════
+   SOCIAL MEDIA
+══════════════════════════════════════════════ */
+const SOCIAL_META={
+  instagram:{icon:'📸',label:'Instagram',color:'#E1306C'},
+  facebook:{icon:'📘',label:'Facebook',color:'#1877F2'},
+  twitter:{icon:'🐦',label:'X / Twitter',color:'#1DA1F2'},
+  youtube:{icon:'▶',label:'YouTube',color:'#FF0000'},
+  pinterest:{icon:'📌',label:'Pinterest',color:'#E60023'},
+  linkedin:{icon:'💼',label:'LinkedIn',color:'#0A66C2'}
+};
+
+function renderSocialIcons(){
+  const html=Object.entries(SOCIAL_META).map(([k,m])=>{
+    const url=storeSettings[k];
+    if(!url)return'';
+    return `<a href="${url}" target="_blank" rel="noopener" title="${m.label}" style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);text-decoration:none;font-size:15px;transition:all 0.2s;cursor:pointer" onmouseover="this.style.borderColor='${m.color}';this.style.color='${m.color}'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">${m.icon}</a>`;
+  }).join('');
+  const el1=document.getElementById('footer-socials');
+  const el2=document.getElementById('footer-socials-2');
+  if(el1)el1.innerHTML=html||'<span style="font-size:11px;color:var(--text4)">No social links set</span>';
+  if(el2)el2.innerHTML=html;
+}
+
+function updateSocialPreview(){
+  const prev=document.getElementById('social-preview');
+  if(!prev)return;
+  const html=Object.entries(SOCIAL_META).map(([k,m])=>{
+    const url=(document.getElementById(`set-${k}`)?.value||'').trim();
+    if(!url)return`<div style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--border);font-size:11px;color:var(--text4)">${m.icon} ${m.label}<span style="color:var(--text4);font-size:10px">Not set</span></div>`;
+    return`<a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.06);font-size:11px;color:var(--gold);text-decoration:none">${m.icon} ${m.label}</a>`;
+  }).join('');
+  prev.innerHTML=html;
+}
+// Hook all social inputs to live preview
+document.addEventListener('DOMContentLoaded',()=>{
+  ['instagram','facebook','twitter','youtube','pinterest','linkedin'].forEach(k=>{
+    const el=document.getElementById(`set-${k}`);
+    if(el)el.addEventListener('input',updateSocialPreview);
+  });
+});
 
 /* TOAST */
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
