@@ -890,7 +890,15 @@ input[type=file]{display:none;}
       <div id="co-step-1">
         <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:24px">Shipping Details</div>
         <div class="fld-row"><div class="fld"><label>First Name</label><input id="f-fname" type="text" placeholder="Aanya"></div><div class="fld"><label>Last Name</label><input id="f-lname" type="text" placeholder="Sharma"></div></div>
-        <div class="fld-row"><div class="fld"><label>Email</label><input id="f-email" type="email" placeholder="aanya@email.com"></div><div class="fld"><label>Phone</label><input id="f-phone" type="tel" placeholder="+91 98765 43210"></div></div>
+        <div class="fld-row"><div class="fld"><label>Email</label><input id="f-email" type="email" placeholder="aanya@email.com"></div>
+          <div class="fld">
+            <label>Mobile Number <span style="color:var(--text3);font-size:9px">(India, 10 digits)</span></label>
+            <input id="f-phone" type="tel" placeholder="98765 43210" maxlength="10"
+              oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)"
+              onblur="validatePhone(this)">
+            <div id="phone-error" style="font-size:10px;color:var(--red);margin-top:4px;display:none;letter-spacing:1px">Enter valid 10-digit Indian mobile number</div>
+          </div>
+        </div>
         <div class="fld-row"><div class="fld" style="flex:2"><label>Address Line 1</label><input id="f-addr1" type="text" placeholder="House / Flat No., Building Name"></div></div>
         <div class="fld-row"><div class="fld" style="flex:2"><label>Address Line 2 <span style="color:var(--text3);font-size:9px">(optional)</span></label><input id="f-addr2" type="text" placeholder="Street, Locality, Landmark"></div></div>
         <div class="fld-row">
@@ -938,13 +946,18 @@ input[type=file]{display:none;}
           </div>
           <div class="fld">
             <label>District</label>
-            <select id="f-district" disabled>
+            <select id="f-district" disabled onchange="loadCities(this.value)">
               <option value="">— Select State first —</option>
             </select>
           </div>
         </div>
         <div class="fld-row">
-          <div class="fld"><label>City / Town</label><input id="f-city" type="text" placeholder="Chennai"></div>
+          <div class="fld">
+            <label>City / Town</label>
+            <select id="f-city" disabled onchange="loadPincode(this.value)">
+              <option value="">— Select District first —</option>
+            </select>
+          </div>
           <div class="fld" style="flex:0.7">
             <label>PIN Code <span style="color:var(--text3);font-size:9px">(6 digits)</span></label>
             <input id="f-pin" type="text" inputmode="numeric" maxlength="6" placeholder="600001"
@@ -1927,10 +1940,9 @@ function goCoStep(s){
     if(!fname)errors.push('First Name');
     if(!lname)errors.push('Last Name');
     if(!email||!email.includes('@'))errors.push('Valid Email');
-    if(!phone||phone.replace(/\D/g,'').length<10)errors.push('Phone (10 digits)');
+    if(!phone||!/^[6-9]\d{9}$/.test(phone))errors.push('Valid Indian Mobile (10 digits, starts with 6-9)');
     if(!addr1)errors.push('Address Line 1');
-    if(!city)errors.push('City / Town');
-    if(!state)errors.push('State');
+    if(!city)errors.push('City / Town');    if(!state)errors.push('State');
     if(!district)errors.push('District');
     if(!pin||pin.length!==6||!/^\d{6}$/.test(pin))errors.push('PIN Code (exactly 6 digits)');
     if(errors.length>0){
@@ -1938,7 +1950,7 @@ function goCoStep(s){
       // Highlight empty fields in red
       const fields=[
         {id:'f-fname',val:fname},{id:'f-lname',val:lname},
-        {id:'f-email',val:email&&email.includes('@')?email:''},{id:'f-phone',val:phone.replace(/\D/g,'').length>=10?phone:''},
+        {id:'f-email',val:email&&email.includes('@')?email:''},{id:'f-phone',val:/^[6-9]\d{9}$/.test(phone)?phone:''},
         {id:'f-addr1',val:addr1},{id:'f-city',val:city},
         {id:'f-state',val:state},{id:'f-district',val:district},
         {id:'f-pin',val:/^\d{6}$/.test(pin)?pin:''}
@@ -2803,12 +2815,357 @@ const INDIA_DISTRICTS={
   'Dadra and Nagar Haveli and Daman and Diu':['Dadra and Nagar Haveli','Daman','Diu']
 };
 
+/* ══════════════════════════════════════════════
+   INDIA — DISTRICT → CITY → PINCODE DATA
+══════════════════════════════════════════════ */
+// Format: 'District Name':{ 'City/Town': '6-digit-pin', ... }
+const CITY_PIN={
+  // Tamil Nadu
+  'Chennai':{'Anna Nagar':'600040','Adyar':'600020','Tambaram':'600045','Velachery':'600042','T Nagar':'600017','Perambur':'600011','Kodambakkam':'600024','Mylapore':'600004','Parrys':'600001','Egmore':'600008','Chromepet':'600044','Guindy':'600032','Sholinganallur':'600119'},
+  'Coimbatore':{'Coimbatore':'641001','Mettupalayam':'641301','Pollachi':'642001','Tiruppur':'641604','Annur':'641653','Valparai':'642127','Sulur':'641402','Kuniyamuthur':'641008'},
+  'Madurai':{'Madurai':'625001','Melur':'625106','Usilampatti':'625532','Thirumangalam':'625706','Vadipatti':'625218','Madurai Airport':'625301'},
+  'Salem':{'Salem':'636001','Attur':'636102','Mettur':'636401','Omalur':'636455','Yercaud':'636602','Valapady':'636115'},
+  'Tiruchirappalli':{'Tiruchirappalli':'620001','Lalgudi':'621601','Musiri':'621211','Srirangam':'620006','Thottiam':'621215'},
+  'Tirunelveli':{'Tirunelveli':'627001','Tenkasi':'627811','Sankarankovil':'627756','Nanguneri':'627108'},
+  'Thanjavur':{'Thanjavur':'613001','Kumbakonam':'612001','Papanasam':'614205','Pattukottai':'614601'},
+  'Vellore':{'Vellore':'632001','Katpadi':'632007','Walajah':'632513','Arcot':'632503'},
+  'Kancheepuram':{'Kancheepuram':'631501','Chengalpattu':'603001','Madurantakam':'603306','Uthiramerur':'603406'},
+  'Erode':{'Erode':'638001','Bhavani':'638301','Gobichettipalayam':'638452','Sathyamangalam':'638401'},
+  'Tiruppur':{'Tiruppur':'641601','Dharapuram':'638656','Palladam':'641662','Udumalaipettai':'642126'},
+  'Dindigul':{'Dindigul':'624001','Palani':'624601','Kodaikanal':'624101','Vedasandur':'624710'},
+  'Virudhunagar':{'Virudhunagar':'626001','Sivakasi':'626123','Rajapalayam':'626117','Aruppukkottai':'626101'},
+  'Ramanathapuram':{'Ramanathapuram':'623501','Rameswaram':'623526','Paramakudi':'623707'},
+  'Cuddalore':{'Cuddalore':'607001','Chidambaram':'608001','Panruti':'607106','Virudhachalam':'606001'},
+  'Nagapattinam':{'Nagapattinam':'611001','Karaikal':'609602','Mayiladuthurai':'609001','Sirkazhi':'609110'},
+  'Namakkal':{'Namakkal':'637001','Rasipuram':'637408','Tiruchengode':'637211'},
+  'Tiruvannamalai':{'Tiruvannamalai':'606601','Polur':'606803','Arni':'632301'},
+  'Kanyakumari':{'Nagercoil':'629001','Marthandam':'629165','Colachel':'629251'},
+  'Perambalur':{'Perambalur':'621212','Ariyalur':'621713'},
+  'Pudukkottai':{'Pudukkottai':'622001','Aranthangi':'614616'},
+  'Sivaganga':{'Sivaganga':'630561','Karaikudi':'630001','Devakottai':'630303'},
+  'Theni':{'Theni':'625531','Bodinayakkanur':'625513','Periyakulam':'625601'},
+  'Thoothukudi':{'Thoothukudi':'628001','Kovilpatti':'628501','Kayalpatnam':'628204'},
+  'Nilgiris':{'Ooty':'643001','Coonoor':'643101','Gudalur':'643212'},
+  'Krishnagiri':{'Krishnagiri':'635001','Hosur':'635109','Bargur':'635104'},
+  'Dharmapuri':{'Dharmapuri':'636701','Harur':'636903','Palacode':'635207'},
+
+  // Maharashtra
+  'Mumbai City':{'Fort':'400001','Colaba':'400005','Bandra East':'400051','Andheri West':'400058','Dadar':'400014','Kurla':'400070','Byculla':'400027'},
+  'Mumbai Suburban':{'Borivali':'400066','Kandivali':'400067','Malad':'400064','Goregaon':'400063','Jogeshwari':'400060','Vile Parle':'400057','Santacruz':'400055'},
+  'Pune':{'Pune City':'411001','Shivajinagar':'411005','Kothrud':'411038','Hadapsar':'411028','Pimpri':'411018','Chinchwad':'411019','Wakad':'411057'},
+  'Nagpur':{'Nagpur':'440001','Wardha Road':'440015','Kamptee':'441002','Hingna':'441110'},
+  'Thane':{'Thane':'400601','Kalyan':'421301','Dombivli':'421201','Ulhasnagar':'421001','Navi Mumbai':'400703'},
+  'Nashik':{'Nashik':'422001','Deolali':'422401','Malegaon':'423203','Igatpuri':'422403'},
+  'Aurangabad':{'Aurangabad':'431001','Jalna':'431203','Osmanabad':'413501'},
+  'Kolhapur':{'Kolhapur':'416001','Sangli':'416416','Satara':'415001'},
+  'Solapur':{'Solapur':'413001','Pandharpur':'413304','Barshi':'413401'},
+  'Amravati':{'Amravati':'444601','Achalpur':'444806','Yavatmal':'445001'},
+
+  // Karnataka
+  'Bengaluru Urban':{'Bengaluru City':'560001','MG Road':'560001','Jayanagar':'560011','Koramangala':'560034','Whitefield':'560066','Electronic City':'560100','Yelahanka':'560064','JP Nagar':'560078'},
+  'Bengaluru Rural':{'Devanahalli':'562110','Doddaballapura':'561203','Nelamangala':'562123'},
+  'Mysuru':{'Mysuru':'570001','Hunsur':'571105','KR Nagar':'571602'},
+  'Dharwad':{'Dharwad':'580001','Hubli':'580020','Kalghatgi':'581204'},
+  'Belagavi':{'Belagavi':'590001','Gokak':'591307','Chikodi':'591201'},
+  'Ballari':{'Ballari':'583101','Hospet':'583201','Sandur':'583119'},
+  'Mangaluru':{'Mangaluru':'575001','Udupi':'576101','Puttur':'574201'},
+  'Dakshina Kannada':{'Mangalore HO':'575001','Bantwal':'574219','Belthangady':'574214'},
+  'Tumakuru':{'Tumkur':'572101','Tiptur':'572201','Madhugiri':'572132'},
+  'Hassan':{'Hassan':'573201','Sakleshpur':'573134','Belur':'573115'},
+  'Shivamogga':{'Shimoga':'577201','Sagar':'577401','Thirthahalli':'577432'},
+  'Davangere':{'Davangere':'577001','Harihar':'577601','Channagiri':'577213'},
+  'Kalaburagi':{'Kalaburagi':'585101','Aland':'585302','Sedam':'585222'},
+  'Vijayapura':{'Vijayapura':'586101','Sindagi':'586128','Muddebihal':'586212'},
+  'Raichur':{'Raichur':'584101','Lingsugur':'584122','Manvi':'584123'},
+
+  // Kerala
+  'Thiruvananthapuram':{'Thiruvananthapuram':'695001','Neyyattinkara':'695121','Attingal':'695101','Nedumangad':'695541'},
+  'Ernakulam':{'Kochi':'682001','Ernakulam':'682011','Aluva':'683101','Perumbavoor':'683542','Kothamangalam':'686691'},
+  'Kozhikode':{'Kozhikode':'673001','Vatakara':'673104','Koyilandy':'673305'},
+  'Thrissur':{'Thrissur':'680001','Chalakudy':'680307','Guruvayur':'680101'},
+  'Palakkad':{'Palakkad':'678001','Ottapalam':'679101','Shoranur':'679121'},
+  'Malappuram':{'Malappuram':'676501','Manjeri':'676121','Tirur':'676101'},
+  'Kollam':{'Kollam':'691001','Karunagappally':'690518','Punalur':'691305'},
+  'Kottayam':{'Kottayam':'686001','Changanacherry':'686101','Pala':'686575'},
+  'Kannur':{'Kannur':'670001','Thalassery':'670101','Iritty':'670703'},
+  'Alappuzha':{'Alappuzha':'688001','Cherthala':'688524','Kayamkulam':'690502'},
+  'Idukki':{'Thodupuzha':'685584','Munnar':'685612','Kattappana':'685508'},
+  'Kasaragod':{'Kasaragod':'671121','Kanhangad':'671315'},
+  'Pathanamthitta':{'Pathanamthitta':'689645','Thiruvalla':'689101','Adoor':'691523'},
+  'Wayanad':{'Kalpetta':'673121','Mananthavady':'670645'},
+
+  // Andhra Pradesh
+  'Visakhapatnam':{'Visakhapatnam':'530001','Gajuwaka':'530026','Bheemunipatnam':'531163','Narsipatnam':'531116'},
+  'Guntur':{'Guntur':'522001','Tenali':'522201','Narasaraopet':'522601'},
+  'Krishna':{'Vijayawada':'520001','Machilipatnam':'521001','Gudivada':'521301'},
+  'Kurnool':{'Kurnool':'518001','Nandyal':'518501','Adoni':'518301'},
+  'Chittoor':{'Chittoor':'517001','Tirupati':'517501','Madanapalle':'517325'},
+  'East Godavari':{'Kakinada':'533001','Rajahmundry':'533101','Amalapuram':'533201'},
+  'West Godavari':{'Eluru':'534001','Bhimavaram':'534201','Narsapur':'534275'},
+  'Srikakulam':{'Srikakulam':'532001','Narasannapeta':'532421'},
+  'YSR Kadapa':{'Kadapa':'516001','Proddatur':'516360','Badvel':'516227'},
+  'Nandyal':{'Nandyal':'518501','Dhone':'518222'},
+  'NTR':{'Vijayawada':'520001','Nuzvid':'521201'},
+  'Anakapalli':{'Anakapalli':'531001','Narsipatnam':'531116'},
+  'Bapatla':{'Bapatla':'522101','Chirala':'523155'},
+  'Konaseema':{'Amalapuram':'533201','Razole':'533242'},
+  'Tirupati':{'Tirupati':'517501','Srikalahasti':'517644'},
+
+  // Telangana
+  'Hyderabad':{'Hyderabad':'500001','Secunderabad':'500003','Banjara Hills':'500034','Jubilee Hills':'500033','Madhapur':'500081','Kukatpally':'500072','LB Nagar':'500074'},
+  'Rangareddy':{'Rajendranagar':'500030','Maheshwaram':'501359','Shamshabad':'501218'},
+  'Medchal Malkajgiri':{'Malkajgiri':'500047','Medchal':'501401','Kompally':'500014'},
+  'Sangareddy':{'Sangareddy':'502001','Patancheru':'502319','Zaheerabad':'502220'},
+  'Karimnagar':{'Karimnagar':'505001','Huzurabad':'505468','Jagitial':'505327'},
+  'Warangal':{'Warangal':'506001','Hanamkonda':'506001','Kazipet':'506003'},
+  'Khammam':{'Khammam':'507001','Kothagudem':'507101','Bhadrachalam':'507111'},
+  'Nalgonda':{'Nalgonda':'508001','Suryapet':'508213','Miryalaguda':'508207'},
+  'Nizamabad':{'Nizamabad':'503001','Bodhan':'503185','Kamareddy':'503111'},
+  'Mahbubnagar':{'Mahabubnagar':'509001','Wanaparthy':'509103','Jadcherla':'509301'},
+
+  // Delhi
+  'Central Delhi':{'Connaught Place':'110001','Karol Bagh':'110005','Paharganj':'110055'},
+  'South Delhi':{'Lajpat Nagar':'110024','Hauz Khas':'110016','Green Park':'110016','Saket':'110017','Vasant Kunj':'110070'},
+  'North Delhi':{'Civil Lines':'110054','Model Town':'110009','Pitam Pura':'110034'},
+  'East Delhi':{'Preet Vihar':'110092','Laxmi Nagar':'110092','Mayur Vihar':'110091'},
+  'West Delhi':{'Janakpuri':'110058','Rajouri Garden':'110027','Tilak Nagar':'110018'},
+  'North West Delhi':{'Rohini':'110085','Pitampura':'110034','Shalimar Bagh':'110088'},
+  'South West Delhi':{'Dwarka':'110075','Palam':'110045','Uttam Nagar':'110059'},
+  'New Delhi':{'New Delhi':'110001','Chanakya Puri':'110021','Diplomatic Enclave':'110021'},
+  'North East Delhi':{'Shahdara':'110032','Seelampur':'110053'},
+  'Shahdara':{'Shahdara':'110032','Dilshad Garden':'110095'},
+
+  // Gujarat
+  'Ahmedabad':{'Ahmedabad':'380001','Navrangpura':'380009','Bopal':'380058','Satellite':'380015','Maninagar':'380008','Gota':'382481'},
+  'Surat':{'Surat':'395001','Adajan':'395009','Vesu':'395007','Katargam':'395004'},
+  'Vadodara':{'Vadodara':'390001','Alkapuri':'390007','Manjalpur':'390011'},
+  'Rajkot':{'Rajkot':'360001','Gondal':'360311','Morbi':'363641'},
+  'Gandhinagar':{'Gandhinagar':'382001','Sector 14':'382016','Mansa':'382845'},
+  'Kutch':{'Bhuj':'370001','Mandvi':'370465','Gandhidham':'370201'},
+  'Junagadh':{'Junagadh':'362001','Veraval':'362265','Porbandar':'360575'},
+  'Anand':{'Anand':'388001','Vallabh Vidyanagar':'388120','Karamsad':'388325'},
+
+  // Rajasthan
+  'Jaipur':{'Jaipur':'302001','Malviya Nagar':'302017','Vaishali Nagar':'302021','Mansarovar':'302020','Sanganer':'303902'},
+  'Jodhpur':{'Jodhpur':'342001','Pali':'306401','Barmer':'344001','Jaisalmer':'345001'},
+  'Udaipur':{'Udaipur':'313001','Nathdwara':'313301','Rajsamand':'313324'},
+  'Kota':{'Kota':'324001','Bundi':'323001','Baran':'325205'},
+  'Ajmer':{'Ajmer':'305001','Pushkar':'305022','Kishangarh':'305801'},
+  'Bikaner':{'Bikaner':'334001','Sujangarh':'331507','Nokha':'334803'},
+  'Alwar':{'Alwar':'301001','Bharatpur':'321001','Tijara':'301411'},
+  'Sikar':{'Sikar':'332001','Fatehpur':'332301','Laxmangarh':'332311'},
+
+  // Uttar Pradesh
+  'Lucknow':{'Lucknow':'226001','Hazratganj':'226001','Gomti Nagar':'226010','Alambagh':'226005','Aliganj':'226024'},
+  'Agra':{'Agra':'282001','Sikandra':'282007','Tajganj':'282001','Firozabad':'283203'},
+  'Kanpur Nagar':{'Kanpur':'208001','Kidwai Nagar':'208011','Govind Nagar':'208006'},
+  'Varanasi':{'Varanasi':'221001','Sarnath':'221007','Lanka':'221005'},
+  'Prayagraj':{'Prayagraj':'211001','Civil Lines':'211001','Naini':'211008'},
+  'Ghaziabad':{'Ghaziabad':'201001','Indirapuram':'201014','Vasundhara':'201012','Noida Extension':'201301'},
+  'Meerut':{'Meerut':'250001','Hapur':'245101','Bulandshahr':'203001'},
+  'Mathura':{'Mathura':'281001','Vrindavan':'281121','Govardhan':'281502'},
+  'Bareilly':{'Bareilly':'243001','Rampur':'244901','Badaun':'243601'},
+  'Aligarh':{'Aligarh':'202001','Hathras':'204101','Kasganj':'207123'},
+  'Gorakhpur':{'Gorakhpur':'273001','Deoria':'274001','Kushinagar':'274403'},
+  'Moradabad':{'Moradabad':'244001','Amroha':'244221','Sambhal':'244302'},
+  'Gautam Buddha Nagar':{'Noida':'201301','Greater Noida':'201310','Dadri':'203207'},
+  'Faridabad':{'Faridabad':'121001','Ballabhgarh':'121004','Old Faridabad':'121002'},
+  'Gurugram':{'Gurugram':'122001','DLF City':'122002','Sohna':'122103'},
+
+  // West Bengal
+  'Kolkata':{'Kolkata':'700001','Park Street':'700016','Salt Lake':'700064','New Town':'700156','Howrah':'711101','Dum Dum':'700028'},
+  'North 24 Parganas':{'Barasat':'700124','Barrackpore':'700120','Krishnanagar':'741101'},
+  'South 24 Parganas':{'Diamond Harbour':'743331','Jadavpur':'700032','Sonarpur':'700150'},
+  'Hooghly':{'Chandannagar':'712136','Serampore':'712201','Chinsurah':'712101'},
+  'Howrah':{'Howrah':'711101','Uluberia':'711315','Bagnan':'711303'},
+  'Darjeeling':{'Darjeeling':'734101','Siliguri':'734001','Kalimpong':'734301'},
+  'Burdwan':{'Burdwan':'713101','Durgapur':'713201','Asansol':'713301'},
+  'Murshidabad':{'Berhampore':'742101','Lalbagh':'742149'},
+  'Malda':{'Malda':'732101','English Bazar':'732101'},
+  'Birbhum':{'Suri':'731101','Bolpur':'731204'},
+
+  // Bihar
+  'Patna':{'Patna':'800001','Boring Road':'800001','Kankarbagh':'800020','Rajendra Nagar':'800016'},
+  'Gaya':{'Gaya':'823001','Bodh Gaya':'824231','Aurangabad Bihar':'824101'},
+  'Muzaffarpur':{'Muzaffarpur':'842001','Sitamarhi':'843301','Motihari':'845401'},
+  'Bhagalpur':{'Bhagalpur':'812001','Banka':'813102'},
+  'Darbhanga':{'Darbhanga':'846001','Madhubani':'847211','Samastipur':'848101'},
+  'Munger':{'Munger':'811201','Jamalpur':'811214'},
+  'Nalanda':{'Bihar Sharif':'803101','Rajgir':'803116'},
+  'Saran':{'Chhapra':'841301','Siwan':'841226'},
+
+  // Punjab
+  'Ludhiana':{'Ludhiana':'141001','Khanna':'141401','Jagraon':'142026'},
+  'Amritsar':{'Amritsar':'143001','Attari':'143105'},
+  'Jalandhar':{'Jalandhar':'144001','Phagwara':'144401','Nakodar':'144040'},
+  'Patiala':{'Patiala':'147001','Rajpura':'140401','Sangrur':'148001'},
+  'Bathinda':{'Bathinda':'151001','Mansa':'151505','Muktsar':'152026'},
+  'Mohali':{'Mohali':'140301','Kharar':'140301','Zirakpur':'140603'},
+  'Gurdaspur':{'Gurdaspur':'143521','Pathankot':'145001','Dalhousie':'176304'},
+  'Hoshiarpur':{'Hoshiarpur':'146001','Mukerian':'144211'},
+
+  // Haryana
+  'Faridabad':{'Faridabad':'121001','Ballabhgarh':'121004'},
+  'Gurugram':{'Gurugram':'122001','Manesar':'122051'},
+  'Ambala':{'Ambala City':'134003','Ambala Cantt':'133001'},
+  'Rohtak':{'Rohtak':'124001','Jhajjar':'124103'},
+  'Hisar':{'Hisar':'125001','Sirsa':'125055','Fatehabad':'125050'},
+  'Karnal':{'Karnal':'132001','Panipat':'132103','Sonipat':'131001'},
+  'Yamunanagar':{'Yamunanagar':'135001','Jagadhri':'135003'},
+  'Panchkula':{'Panchkula':'134109','Kalka':'133302'},
+
+  // Madhya Pradesh
+  'Bhopal':{'Bhopal':'462001','MP Nagar':'462011','Hoshangabad':'461001'},
+  'Indore':{'Indore':'452001','Dewas':'455001','Dhar':'454001'},
+  'Jabalpur':{'Jabalpur':'482001','Katni':'483501','Mandla':'481661'},
+  'Gwalior':{'Gwalior':'474001','Bhind':'477001','Morena':'476001'},
+  'Ujjain':{'Ujjain':'456001','Ratlam':'457001','Mandsaur':'458001'},
+  'Sagar':{'Sagar':'470001','Damoh':'470661','Chhatarpur':'471001'},
+  'Rewa':{'Rewa':'486001','Satna':'485001','Sidhi':'486661'},
+
+  // Odisha
+  'Khordha':{'Bhubaneswar':'751001','Puri':'752001','Khordha':'752055'},
+  'Cuttack':{'Cuttack':'753001','Choudwar':'754025','Kendrapara':'754211'},
+  'Sundargarh':{'Rourkela':'769001','Sundargarh':'770001','Jharsuguda':'768201'},
+  'Sambalpur':{'Sambalpur':'768001','Bargarh':'768028'},
+  'Ganjam':{'Berhampur':'760001','Bhanjanagar':'762001'},
+  'Balasore':{'Balasore':'756001','Bhadrak':'756100'},
+  'Koraput':{'Koraput':'764020','Jeypore':'764001'},
+  'Mayurbhanj':{'Baripada':'757001','Udala':'757041'},
+
+  // Assam
+  'Kamrup Metropolitan':{'Guwahati':'781001','Dispur':'781006','Jalukbari':'781013','Kahilipara':'781019'},
+  'Kamrup':{'Hajo':'781102','Rangia':'781354','Palashbari':'781125'},
+  'Dibrugarh':{'Dibrugarh':'786001','Tinsukia':'786125','Doom Dooma':'786151'},
+  'Jorhat':{'Jorhat':'785001','Sibsagar':'785640'},
+  'Nagaon':{'Nagaon':'782001','Hojai':'782435'},
+  'Cachar':{'Silchar':'788001','Sonai':'788815'},
+  'Sonitpur':{'Tezpur':'784001','Rangapara':'784505'},
+  'Barpeta':{'Barpeta':'781301','Barpeta Road':'781315'},
+
+  // Jharkhand
+  'Ranchi':{'Ranchi':'834001','Kanke':'834006','Namkum':'834010'},
+  'Dhanbad':{'Dhanbad':'826001','Jharia':'828111','Bokaro':'827001'},
+  'East Singhbhum':{'Jamshedpur':'831001','Tatanagar':'831001','Baharagora':'832101'},
+  'Hazaribagh':{'Hazaribagh':'825301','Chatra':'825401'},
+  'Giridih':{'Giridih':'815301','Deoghar':'814112'},
+  'Palamu':{'Daltonganj':'822101','Medininagar':'822101'},
+
+  // Uttarakhand
+  'Dehradun':{'Dehradun':'248001','Rishikesh':'249201','Mussoorie':'248179','Roorkee':'247667'},
+  'Haridwar':{'Haridwar':'249401','Roorkee':'247667'},
+  'Nainital':{'Nainital':'263001','Haldwani':'263139','Ramnagar':'244715'},
+  'Udham Singh Nagar':{'Rudrapur':'263153','Kashipur':'244713','Sitarganj':'262405'},
+  'Pauri Garhwal':{'Pauri':'246001','Kotdwar':'246149','Srinagar Garhwal':'246174'},
+  'Almora':{'Almora':'263601','Bageshwar':'263641'},
+  'Chamoli':{'Gopeshwar':'246401','Joshimath':'246443'},
+
+  // Himachal Pradesh
+  'Shimla':{'Shimla':'171001','Solan':'173212','Baddi':'173205'},
+  'Kangra':{'Dharamshala':'176215','Palampur':'176061','Mandi':'175001'},
+  'Kullu':{'Kullu':'175101','Manali':'175131'},
+  'Hamirpur':{'Hamirpur':'177001','Una':'174303'},
+  'Chamba':{'Chamba':'176310','Dalhousie':'176304'},
+
+  // Goa
+  'North Goa':{'Panaji':'403001','Mapusa':'403507','Calangute':'403516','Candolim':'403515'},
+  'South Goa':{'Margao':'403601','Vasco da Gama':'403802','Ponda':'403401'},
+
+  // Chhattisgarh
+  'Raipur':{'Raipur':'492001','Durg':'491001','Bhilai':'490001'},
+  'Bilaspur':{'Bilaspur':'495001','Korba':'495677'},
+  'Bastar':{'Jagdalpur':'494001','Kondagaon':'494226'},
+
+  // Chandigarh
+  'Chandigarh':{'Chandigarh':'160001','Sector 17':'160017','Sector 22':'160022','Manimajra':'160101'},
+
+  // Puducherry
+  'Puducherry':{'Puducherry':'605001','Oulgaret':'605009','Ariyankuppam':'605007'},
+  'Karaikal':{'Karaikal':'609602','Thirunallar':'609604'},
+
+  // Andaman and Nicobar Islands
+  'South Andaman':{'Port Blair':'744101','Aberdeen Bazar':'744101'},
+
+  // Jammu and Kashmir
+  'Srinagar':{'Srinagar':'190001','Lal Chowk':'190001','Rajbagh':'190008'},
+  'Jammu':{'Jammu':'180001','Kathua':'184101','Udhampur':'182101'},
+  'Anantnag':{'Anantnag':'192101','Pahalgam':'192125'},
+  'Baramulla':{'Baramulla':'193101','Sopore':'193201','Gulmarg':'193403'},
+
+  // Ladakh
+  'Leh':{'Leh':'194101','Kargil':'194103'},
+  'Kargil':{'Kargil':'194103'},
+
+  // Other states with basic data
+  'Imphal East':{'Imphal':'795001'},
+  'Imphal West':{'Imphal West':'795001'},
+  'Kohima':{'Kohima':'797001'},
+  'Dimapur':{'Dimapur':'797112'},
+  'Shillong':{'Shillong':'793001'},
+  'East Khasi Hills':{'Shillong':'793001','Cherrapunji':'793108'},
+  'Aizawl':{'Aizawl':'796001'},
+  'Itanagar':{'Itanagar':'791111'},
+  'Papum Pare':{'Itanagar':'791111','Naharlagun':'791110'},
+  'Agartala':{'Agartala':'799001'},
+  'West Tripura':{'Agartala':'799001','Bishalgarh':'799102'},
+  'Gangtok':{'Gangtok':'737101'},
+  'East Sikkim':{'Gangtok':'737101'},
+  'Panjim':{'Panaji':'403001'},
+};
+
 function loadDistricts(state){
-  const sel=document.getElementById('f-district');
-  if(!state){sel.innerHTML='<option value="">— Select State first —</option>';sel.disabled=true;return;}
+  const distSel=document.getElementById('f-district');
+  const citySel=document.getElementById('f-city');
+  const pinInp=document.getElementById('f-pin');
+  if(!state){
+    distSel.innerHTML='<option value="">— Select State first —</option>';
+    distSel.disabled=true;
+    citySel.innerHTML='<option value="">— Select District first —</option>';
+    citySel.disabled=true;
+    if(pinInp)pinInp.value='';
+    return;
+  }
   const districts=INDIA_DISTRICTS[state]||[];
-  sel.innerHTML='<option value="">— Select District —</option>'+districts.map(d=>`<option>${d}</option>`).join('');
-  sel.disabled=false;
+  distSel.innerHTML='<option value="">— Select District —</option>'+districts.map(d=>`<option>${d}</option>`).join('');
+  distSel.disabled=false;
+  citySel.innerHTML='<option value="">— Select District first —</option>';
+  citySel.disabled=true;
+  if(pinInp)pinInp.value='';
+}
+
+function loadCities(district){
+  const citySel=document.getElementById('f-city');
+  const pinInp=document.getElementById('f-pin');
+  if(!district){
+    citySel.innerHTML='<option value="">— Select District first —</option>';
+    citySel.disabled=true;
+    if(pinInp)pinInp.value='';
+    return;
+  }
+  const cities=CITY_PIN[district];
+  if(cities&&Object.keys(cities).length>0){
+    citySel.innerHTML='<option value="">— Select City / Town —</option>'+Object.keys(cities).map(c=>`<option value="${c}">${c}</option>`).join('');
+    citySel.disabled=false;
+  } else {
+    // If no mapped cities, allow free text entry
+    citySel.outerHTML=`<input id="f-city" type="text" placeholder="Enter city / town" class="fld" style="background:#fff;border:1.5px solid var(--border2);color:var(--text);padding:12px 16px;font-size:13px;font-family:'DM Sans',sans-serif;width:100%">`;
+    if(pinInp)pinInp.value='';
+  }
+  if(pinInp)pinInp.value='';
+}
+
+function loadPincode(city){
+  const pinInp=document.getElementById('f-pin');
+  if(!pinInp||!city)return;
+  const district=document.getElementById('f-district')?.value||'';
+  const cities=CITY_PIN[district];
+  if(cities&&cities[city]){
+    pinInp.value=cities[city];
+    const err=document.getElementById('pin-error');
+    if(err)err.style.display='none';
+  } else {
+    pinInp.value='';
+  }
 }
 
 function validatePin(el){
@@ -2816,6 +3173,14 @@ function validatePin(el){
   el.value=v.slice(0,6);
   const err=document.getElementById('pin-error');
   if(v.length>0&&v.length<6){if(err)err.style.display='block';}
+  else{if(err)err.style.display='none';}
+}
+
+function validatePhone(el){
+  const v=el.value.replace(/\D/g,'');
+  el.value=v.slice(0,10);
+  const err=document.getElementById('phone-error');
+  if(v.length>0&&!/^[6-9]\d{9}$/.test(v)){if(err)err.style.display='block';}
   else{if(err)err.style.display='none';}
 }
 </script>
