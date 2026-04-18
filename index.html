@@ -436,6 +436,101 @@ nav a:hover,nav a.active{color:var(--gold);}
 .img-upload-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
 .img-upload-placeholder p{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);}
 input[type=file]{display:none;}
+
+/* ═══════════════ DELIVERY OPTIONS ═══════════════ */
+.delivery-opts{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.delivery-card{border:1px solid var(--border2);padding:18px 20px;cursor:pointer;transition:all 0.2s;position:relative;display:flex;align-items:flex-start;gap:16px;}
+.delivery-card:hover{border-color:var(--border3);}
+.delivery-card.selected{border-color:var(--gold);background:rgba(201,146,46,0.05);}
+.delivery-card.selected::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);}
+.dc-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s;}
+.delivery-card.selected .dc-radio{border-color:var(--gold);}
+.dc-radio::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity 0.2s;}
+.delivery-card.selected .dc-radio::after{opacity:1;}
+.dc-body{flex:1;}
+.dc-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;letter-spacing:0.5px;}
+.dc-desc{font-size:11px;color:var(--text3);letter-spacing:1px;margin-bottom:6px;}
+.dc-days{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);}
+.dc-price{font-size:14px;font-weight:600;color:var(--gold);margin-left:auto;flex-shrink:0;padding-left:16px;}
+.dc-price.free{color:var(--green-light);}
+.dc-badge{display:inline-block;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;margin-left:8px;background:rgba(201,146,46,0.15);color:var(--gold);border:1px solid rgba(201,146,46,0.3);}
+/* Date picker */
+.date-section{margin-bottom:24px;}
+.date-section-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text2);margin-bottom:14px;display:block;}
+.date-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.date-chip{padding:12px 8px;border:1px solid var(--border2);text-align:center;cursor:pointer;transition:all 0.2s;position:relative;}
+.date-chip:hover{border-color:var(--border3);}
+.date-chip.selected{border-color:var(--gold);background:rgba(201,146,46,0.07);}
+.date-chip.unavailable{opacity:0.3;cursor:not-allowed;pointer-events:none;}
+.date-chip .dc-day{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.date-chip .dc-date{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--text);line-height:1;}
+.date-chip .dc-month{font-size:9px;color:var(--text3);margin-top:2px;letter-spacing:1px;}
+.date-chip.selected .dc-day,.date-chip.selected .dc-month{color:var(--gold);}
+.date-chip.selected .dc-date{color:var(--gold);}
+.date-chip.today-chip::after{content:'Today';position:absolute;top:-1px;right:-1px;font-size:7px;letter-spacing:1px;text-transform:uppercase;background:var(--gold);color:var(--bg);padding:2px 5px;}
+/* Delivery summary banner */
+.delivery-banner{background:rgba(201,146,46,0.08);border:1px solid rgba(201,146,46,0.25);border-left:3px solid var(--gold);padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.delivery-banner-icon{font-size:16px;color:var(--gold);}
+.delivery-banner-text{font-size:12px;color:var(--text2);line-height:1.7;}
+.delivery-banner-text strong{color:var(--text);display:block;font-size:13px;margin-bottom:2px;}
+
+/* ═══════════════ ORDER TRACKING ═══════════════ */
+.track-page{padding-top:calc(68px + 52px);max-width:760px;margin:0 auto;padding-left:48px;padding-right:48px;padding-bottom:100px;}
+.track-search-box{background:var(--bg2);border:1px solid var(--border2);padding:36px;margin-bottom:40px;position:relative;}
+.track-search-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
+.track-h1{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;letter-spacing:-2px;margin-bottom:8px;}
+.track-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:44px;}
+.track-input-row{display:flex;gap:12px;}
+.track-inp{flex:1;background:var(--surface);border:1px solid var(--border2);color:var(--text);padding:14px 18px;font-size:13px;font-family:'DM Sans',sans-serif;}
+.track-inp:focus{outline:none;border-color:var(--gold);}
+/* Order card */
+.order-track-card{background:var(--bg2);border:1px solid var(--border2);margin-bottom:20px;overflow:hidden;}
+.otc-header{padding:24px 28px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:16px;}
+.otc-id{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:1px;}
+.otc-date{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:4px;}
+.otc-total{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--text);text-align:right;}
+.otc-total-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.otc-body{padding:28px;}
+/* Timeline */
+.timeline{display:flex;align-items:flex-start;gap:0;margin-bottom:32px;overflow-x:auto;padding-bottom:8px;}
+.tl-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;min-width:80px;}
+.tl-step::before{content:'';position:absolute;top:15px;left:calc(50% + 15px);right:calc(-50% + 15px);height:2px;background:var(--border2);z-index:0;}
+.tl-step:last-child::before{display:none;}
+.tl-step.done::before{background:var(--gold);}
+.tl-dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:12px;position:relative;z-index:1;transition:all 0.3s;flex-shrink:0;}
+.tl-step.done .tl-dot{border-color:var(--gold);background:var(--gold);color:var(--bg);}
+.tl-step.current .tl-dot{border-color:var(--gold);background:var(--bg2);box-shadow:0 0 0 4px rgba(201,146,46,0.15);}
+.tl-step.current .tl-dot::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--gold);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+.tl-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-top:10px;line-height:1.4;}
+.tl-step.done .tl-label,.tl-step.current .tl-label{color:var(--gold);}
+.tl-date{font-size:10px;color:var(--text3);margin-top:4px;}
+/* Order items in track */
+.otc-items{margin-bottom:24px;}
+.otc-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.otc-item:last-child{border-bottom:none;}
+.otc-item-name{color:var(--text);}
+.otc-item-meta{font-size:11px;color:var(--text3);margin-top:2px;letter-spacing:1px;}
+.otc-item-price{color:var(--gold);font-weight:600;}
+/* Delivery info in track */
+.otc-delivery{background:var(--surface);border:1px solid var(--border);padding:18px 20px;margin-bottom:24px;display:flex;gap:20px;flex-wrap:wrap;}
+.otcd-col{flex:1;min-width:160px;}
+.otcd-label{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.otcd-val{font-size:13px;color:var(--text);line-height:1.7;}
+/* Cancel button area */
+.otc-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.cancel-reason-select{background:var(--surface);border:1px solid var(--border2);color:var(--text2);padding:12px 16px;font-size:13px;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:16px;}
+.cancel-reason-select:focus{outline:none;border-color:var(--gold);}
+.cancelled-banner{background:rgba(184,58,42,0.08);border:1px solid rgba(184,58,42,0.3);padding:16px 20px;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.cancelled-banner-icon{font-size:18px;color:var(--red-light);}
+.cancelled-banner-text{font-size:13px;color:var(--red-light);}
+.delivered-banner{background:rgba(42,112,69,0.08);border:1px solid rgba(42,112,69,0.3);padding:16px 20px;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.delivered-banner-icon{font-size:18px;color:var(--green-light);}
+.delivered-banner-text{font-size:13px;color:var(--green-light);}
+/* No results */
+.track-empty{text-align:center;padding:60px 0;}
+.track-empty h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--text2);margin-bottom:12px;}
+.track-empty p{color:var(--text3);font-size:12px;letter-spacing:2px;text-transform:uppercase;}
 </style>
 </head>
 <body>
@@ -467,6 +562,7 @@ input[type=file]{display:none;}
     <a onclick="goShop('men')">Men</a>
     <a onclick="goShop('kids')">Kids</a>
     <a onclick="showStatic('help')">Help</a>
+    <a onclick="goTrack()" id="nav-track">Track Order</a>
   </nav>
   <div class="header-right">
     <div class="cart-btn" onclick="goCart()">Bag <span id="cart-count" class="cart-count">0</span></div>
@@ -630,7 +726,50 @@ input[type=file]{display:none;}
           <div class="fld"><label>State</label><select id="f-state"><option value="">Select</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Gujarat</option><option>Rajasthan</option><option>West Bengal</option><option>Telangana</option><option>Uttar Pradesh</option><option>Andhra Pradesh</option><option>Kerala</option><option>Punjab</option></select></div>
           <div class="fld" style="flex:0.7"><label>PIN Code</label><input id="f-pin" type="text" placeholder="600001"></div>
         </div>
-        <button class="btn btn-gold" onclick="goCoStep(2)">Continue to Payment →</button>
+
+        <!-- DELIVERY OPTIONS -->
+        <div style="margin:28px 0 8px">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:6px">Choose Delivery</div>
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:20px">Select speed and your preferred delivery date</div>
+        </div>
+        <div class="delivery-opts" id="delivery-opts">
+          <div class="delivery-card selected" data-type="standard" onclick="selectDelivery('standard',this)">
+            <div class="dc-radio"></div>
+            <div class="dc-body">
+              <div class="dc-name">Standard Delivery</div>
+              <div class="dc-desc">Delivered by BlueDart / DTDC across India</div>
+              <div class="dc-days">4–7 Business Days</div>
+            </div>
+            <div class="dc-price free" id="std-price-lbl">Free</div>
+          </div>
+          <div class="delivery-card" data-type="express" onclick="selectDelivery('express',this)">
+            <div class="dc-radio"></div>
+            <div class="dc-body">
+              <div class="dc-name">Express Delivery <span class="dc-badge">Fast</span></div>
+              <div class="dc-desc">Priority handling, guaranteed within 2 days</div>
+              <div class="dc-days">1–2 Business Days</div>
+            </div>
+            <div class="dc-price">₹499</div>
+          </div>
+          <div class="delivery-card" data-type="sameday" onclick="selectDelivery('sameday',this)">
+            <div class="dc-radio"></div>
+            <div class="dc-body">
+              <div class="dc-name">Same-Day Delivery <span class="dc-badge" style="background:rgba(76,190,132,0.12);color:var(--green-light);border-color:rgba(76,190,132,0.3)">Chennai Only</span></div>
+              <div class="dc-desc">Order before 12pm for delivery today</div>
+              <div class="dc-days">Today, by 8pm</div>
+            </div>
+            <div class="dc-price">₹799</div>
+          </div>
+        </div>
+
+        <!-- DATE PICKER -->
+        <div class="date-section" id="date-section">
+          <span class="date-section-label">Choose Preferred Delivery Date</span>
+          <div class="date-grid" id="date-grid"></div>
+          <div style="margin-top:10px;font-size:11px;color:var(--text3)">Dates are estimated. Actual delivery may vary by ±1 day based on your location.</div>
+        </div>
+
+        <button class="btn btn-gold" onclick="goCoStep(2)" style="margin-top:8px">Continue to Payment →</button>
       </div>
       <div id="co-step-2" style="display:none">
         <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:24px">Payment Method</div>
@@ -677,12 +816,30 @@ input[type=file]{display:none;}
     <h1 class="success-h1">Order Confirmed</h1>
     <p class="success-sub">Your order is being prepared with care and will be dispatched shortly.</p>
     <div class="order-chip" id="success-ref">ORDER #TS-00001</div>
-    <p style="color:var(--text3);font-size:12px;margin-bottom:40px;letter-spacing:2px;text-transform:uppercase">Confirmation sent to your email</p>
+    <div id="success-delivery-info" style="font-size:13px;color:var(--text2);margin-bottom:12px;letter-spacing:1px;text-align:center"></div>
+    <p style="color:var(--text3);font-size:12px;margin-bottom:36px;letter-spacing:2px;text-transform:uppercase">Confirmation sent to your email</p>
     <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
       <button class="btn btn-gold" onclick="goHome()">Continue Shopping</button>
-      <button class="btn btn-ghost" onclick="showStatic('help')">Help & Support</button>
+      <button class="btn btn-ghost" onclick="goTrack()">Track My Order</button>
     </div>
   </div></div>
+</div>
+
+<!-- ═══════════ ORDER TRACKING ═══════════ -->
+<div class="screen" id="screen-track">
+  <div class="track-page">
+    <button class="back-btn" onclick="goHome()">← Back to Home</button>
+    <h1 class="track-h1">Track Order</h1>
+    <div class="track-sub">Enter your order ID or email address</div>
+    <div class="track-search-box">
+      <div class="track-input-row">
+        <input class="track-inp" type="text" id="track-inp" placeholder="Order ID (e.g. TS-00004) or your email address" onkeydown="if(event.key==='Enter')searchOrders()">
+        <button class="btn btn-gold btn-sm" onclick="searchOrders()">Track</button>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3)">Try: <span style="color:var(--text2);cursor:pointer" onclick="document.getElementById('track-inp').value='TS-00004';searchOrders()">TS-00004</span> or <span style="color:var(--text2);cursor:pointer" onclick="document.getElementById('track-inp').value='priya@email.com';searchOrders()">priya@email.com</span></div>
+    </div>
+    <div id="track-results"></div>
+  </div>
 </div>
 
 <!-- ═══════════ STATIC PAGES ═══════════ -->
@@ -1009,6 +1166,32 @@ input[type=file]{display:none;}
   </div>
 </div>
 
+<!-- CANCEL ORDER MODAL -->
+<div class="overlay" id="cancel-modal">
+  <div class="modal sm">
+    <button class="modal-close" onclick="document.getElementById('cancel-modal').classList.remove('open')">✕</button>
+    <div class="modal-h" style="color:var(--red-light)">Cancel Order</div>
+    <div id="cancel-order-info" style="background:var(--surface);padding:16px 20px;border:1px solid var(--border2);margin-bottom:24px;font-size:13px;color:var(--text2);line-height:1.9"></div>
+    <div style="font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text2);margin-bottom:10px">Reason for Cancellation *</div>
+    <select class="cancel-reason-select" id="cancel-reason">
+      <option value="">Select a reason…</option>
+      <option value="changed_mind">Changed my mind</option>
+      <option value="wrong_item">Ordered the wrong item / size</option>
+      <option value="found_cheaper">Found a better price elsewhere</option>
+      <option value="delivery_too_long">Delivery date too far</option>
+      <option value="duplicate">Accidental / duplicate order</option>
+      <option value="other">Other reason</option>
+    </select>
+    <div style="background:rgba(184,58,42,0.06);border:1px solid rgba(184,58,42,0.25);padding:14px 18px;font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:8px">
+      ⚠ Cancellation is only possible for orders with status <strong style="color:var(--text)">Pending</strong> or <strong style="color:var(--text)">Confirmed</strong>. Once shipped, orders cannot be cancelled. Refunds are processed within 5–7 business days.
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('cancel-modal').classList.remove('open')">Keep Order</button>
+      <button class="btn" style="background:var(--red);color:#fff;font-size:10px;padding:9px 22px;letter-spacing:2px" onclick="confirmCancel()">Cancel Order</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Admin access key: hold Shift+A+D for 1s to open login -->
@@ -1113,6 +1296,11 @@ function goShop(cat){
 function goCart(){renderCart();showScreen('screen-cart');}
 function goBack(){showScreen(prevScreen);}
 function showStatic(p){showScreen('screen-'+p);}
+function goTrack(){
+  showScreen('screen-track');
+  document.getElementById('track-results').innerHTML='';
+  document.getElementById('track-inp').value='';
+}
 
 /* ══════════════════════════════════════════════
    PRODUCTS
@@ -1218,9 +1406,97 @@ function chgCartQty(id,d){const i=cart.find(x=>x.id===id);if(!i)return;i.qty=Mat
 function removeCart(id){cart=cart.filter(i=>i.id!==id);updateCartCount();renderCart();}
 
 /* ══════════════════════════════════════════════
-   CHECKOUT
+   DELIVERY OPTIONS & DATE PICKER
 ══════════════════════════════════════════════ */
-function goCheckout(){if(!cart.length)return;renderCoSummary();goCoStep(1);showScreen('screen-checkout');}
+let selDelivery='standard';
+let selDate=null;
+
+const DELIVERY_OPTIONS={
+  standard:{label:'Standard Delivery',days:'4–7 Business Days',cost:0,minDays:4,maxDays:7},
+  express:{label:'Express Delivery',days:'1–2 Business Days',cost:499,minDays:1,maxDays:2},
+  sameday:{label:'Same-Day Delivery',days:'Today by 8pm',cost:799,minDays:0,maxDays:0}
+};
+
+function selectDelivery(type,el){
+  selDelivery=type;selDate=null;
+  document.querySelectorAll('.delivery-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  buildDatePicker();
+  renderCoSummary();
+}
+
+function buildDatePicker(){
+  const opt=DELIVERY_OPTIONS[selDelivery];
+  const grid=document.getElementById('date-grid');
+  const today=new Date();
+  let dates=[];
+  if(selDelivery==='sameday'){
+    const now=new Date();
+    const cutoff=new Date(today);cutoff.setHours(12,0,0,0);
+    if(now<cutoff){dates=[new Date(today)];}
+    else{const tom=new Date(today);tom.setDate(tom.getDate()+1);dates=[tom];}
+  } else {
+    const start=new Date(today);start.setDate(start.getDate()+opt.minDays);
+    const end=new Date(today);end.setDate(end.getDate()+opt.maxDays+3);
+    let d=new Date(start);
+    while(d<=end&&dates.length<8){
+      if(d.getDay()!==0)dates.push(new Date(d));
+      d.setDate(d.getDate()+1);
+    }
+  }
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  grid.innerHTML=dates.map((d,i)=>{
+    const isToday=d.toDateString()===today.toDateString();
+    const val=d.toISOString().split('T')[0];
+    return `<div class="date-chip ${i===0?'selected':''} ${isToday?'today-chip':''}" onclick="selectDate('${val}',this)">
+      <div class="dc-day">${days[d.getDay()]}</div>
+      <div class="dc-date">${d.getDate()}</div>
+      <div class="dc-month">${months[d.getMonth()]}</div>
+    </div>`;
+  }).join('');
+  // Auto-select first date
+  if(dates.length>0){selDate=dates[0].toISOString().split('T')[0];}
+}
+
+function selectDate(val,el){
+  selDate=val;
+  document.querySelectorAll('.date-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function getDeliveryCost(){
+  const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
+  const opt=DELIVERY_OPTIONS[selDelivery];
+  if(selDelivery==='standard'&&sub>=storeSettings.shipThresh)return 0;
+  return opt.cost;
+}
+
+function formatDate(iso){
+  if(!iso)return'TBD';
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+
+/* ══════════════════════════════════════════════
+   CHECKOUT (updated)
+══════════════════════════════════════════════ */
+function goCheckout(){
+  if(!cart.length)return;
+  // Init delivery
+  selDelivery='standard';selDate=null;
+  document.querySelectorAll('.delivery-card').forEach(c=>c.classList.remove('selected'));
+  const stdCard=document.querySelector('[data-type="standard"]');
+  if(stdCard)stdCard.classList.add('selected');
+  // Update free shipping label
+  const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
+  const stdLbl=document.getElementById('std-price-lbl');
+  if(stdLbl)stdLbl.textContent=sub>=storeSettings.shipThresh?'Free':'₹250';
+  buildDatePicker();
+  renderCoSummary();
+  goCoStep(1);
+  showScreen('screen-checkout');
+}
 function goCoStep(s){
   [1,2,3].forEach(n=>{
     const el=document.getElementById(`co-step-${n}`);if(el)el.style.display=n===s?'block':'none';
@@ -1232,34 +1508,157 @@ function renderCoSummary(){
   const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
   const gst=storeSettings.gst||18;
   const tax=Math.round(sub*gst/100);
-  const ship=sub>=storeSettings.shipThresh?0:250;
+  const ship=getDeliveryCost();
   document.getElementById('co-summary-items').innerHTML=cart.map(i=>`<div class="co-item-row"><span>${i.product.name} ×${i.qty}</span><span>₹${(i.product.price*i.qty).toLocaleString('en-IN')}</span></div>`).join('');
   document.getElementById('co-sub').textContent=`₹${sub.toLocaleString('en-IN')}`;
-  document.getElementById('co-ship').textContent=ship===0?'Free':`₹${ship}`;
+  const opt=DELIVERY_OPTIONS[selDelivery];
+  document.getElementById('co-ship').textContent=ship===0?'Free':`₹${ship} (${opt.label})`;
   document.getElementById('co-tax').textContent=`₹${tax.toLocaleString('en-IN')}`;
   document.getElementById('co-total').textContent=`₹${(sub+tax+ship).toLocaleString('en-IN')}`;
 }
 function renderReview(){
   const fn=document.getElementById('f-fname').value,ln=document.getElementById('f-lname').value;
+  const opt=DELIVERY_OPTIONS[selDelivery];
   document.getElementById('rev-items').innerHTML=cart.map(i=>`<div class="co-item-row" style="font-size:14px"><span style="color:var(--text)">${i.product.name} (${i.size}) ×${i.qty}</span><span style="color:var(--gold)">₹${(i.product.price*i.qty).toLocaleString('en-IN')}</span></div>`).join('');
-  document.getElementById('rev-ship').innerHTML=`<strong style="color:var(--text);display:block;font-size:9px;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px">Delivering to:</strong>${fn} ${ln}<br>${document.getElementById('f-addr1').value}<br>${document.getElementById('f-city').value}, ${document.getElementById('f-state').value} — ${document.getElementById('f-pin').value}<br>📞 ${document.getElementById('f-phone').value}`;
+  document.getElementById('rev-ship').innerHTML=`
+    <strong style="color:var(--text);display:block;font-size:9px;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px">Delivering to:</strong>
+    ${fn} ${ln}<br>${document.getElementById('f-addr1').value}<br>
+    ${document.getElementById('f-city').value}, ${document.getElementById('f-state').value} — ${document.getElementById('f-pin').value}<br>
+    📞 ${document.getElementById('f-phone').value}
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+      <strong style="color:var(--text);display:block;font-size:9px;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px">Delivery Method:</strong>
+      <span style="color:var(--gold)">${opt.label}</span> — ${opt.days}${selDate?`<br><span style="color:var(--text2)">Preferred Date: ${formatDate(selDate)}</span>`:''}
+    </div>`;
 }
 function placeOrder(){
   const sub=cart.reduce((s,i)=>s+i.product.price*i.qty,0);
   const tax=Math.round(sub*(storeSettings.gst||18)/100);
-  const total=sub+tax;
+  const ship=getDeliveryCost();
+  const total=sub+tax+ship;
   const oid='TS-'+String(orders.length+1).padStart(5,'0');
+  const opt=DELIVERY_OPTIONS[selDelivery];
   orders.unshift({
-    id:oid,customer:`${document.getElementById('f-fname').value} ${document.getElementById('f-lname').value}`,
+    id:oid,
+    customer:`${document.getElementById('f-fname').value} ${document.getElementById('f-lname').value}`,
     email:document.getElementById('f-email').value,phone:document.getElementById('f-phone').value,
     addr1:document.getElementById('f-addr1').value,addr2:document.getElementById('f-addr2').value,
     city:document.getElementById('f-city').value,state:document.getElementById('f-state').value,pin:document.getElementById('f-pin').value,
     items:cart.map(i=>({name:i.product.name,qty:i.qty,price:i.product.price*i.qty})),
-    total,status:'pending',date:new Date().toISOString().split('T')[0],notified:false
+    total,status:'pending',date:new Date().toISOString().split('T')[0],notified:false,
+    deliveryType:selDelivery,deliveryLabel:opt.label,deliveryDays:opt.days,
+    preferredDate:selDate,deliveryCost:ship,
+    cancelReason:null
   });
   document.getElementById('success-ref').textContent=`ORDER #${oid}`;
+  const dInfo=document.getElementById('success-delivery-info');
+  if(dInfo)dInfo.innerHTML=`<span style="color:var(--gold)">${opt.label}</span> · ${opt.days}${selDate?` · Preferred: ${formatDate(selDate)}`:''}`;
   cart=[];updateCartCount();updateBadges();
   showScreen('screen-success');
+}
+
+/* ══════════════════════════════════════════════
+   ORDER TRACKING
+══════════════════════════════════════════════ */
+function goTrack(){showScreen('screen-track');document.getElementById('track-results').innerHTML='';}
+
+function searchOrders(){
+  const q=document.getElementById('track-inp').value.trim().toLowerCase();
+  if(!q){showToast('Please enter an order ID or email');return;}
+  const found=orders.filter(o=>o.id.toLowerCase()===q||o.email.toLowerCase()===q);
+  const wrap=document.getElementById('track-results');
+  if(!found.length){
+    wrap.innerHTML=`<div class="track-empty"><h3>No orders found</h3><p>Check your order ID or email and try again</p></div>`;
+    return;
+  }
+  wrap.innerHTML=found.map(o=>buildOrderCard(o)).join('');
+}
+
+function buildOrderCard(o){
+  const TL_STEPS=[
+    {key:'placed',label:'Order Placed',icon:'✓'},
+    {key:'confirmed',label:'Confirmed',icon:'◈'},
+    {key:'shipped',label:'Shipped',icon:'→'},
+    {key:'out',label:'Out for Delivery',icon:'◎'},
+    {key:'delivered',label:'Delivered',icon:'✦'}
+  ];
+  const STATUS_ORDER={pending:0,confirmed:1,shipped:2,out_for_delivery:3,delivered:4,cancelled:-1};
+  const currentStep=STATUS_ORDER[o.status]??0;
+  const isCancelled=o.status==='cancelled';
+  const canCancel=o.status==='pending'||o.status==='confirmed';
+  const opt=DELIVERY_OPTIONS[o.deliveryType||'standard']||DELIVERY_OPTIONS.standard;
+
+  const timeline=isCancelled?`
+    <div class="cancelled-banner"><div class="cancelled-banner-icon">✕</div><div class="cancelled-banner-text"><strong>This order was cancelled</strong>${o.cancelReason?`<br><span style="font-size:12px;opacity:0.8">Reason: ${o.cancelReason}</span>`:''}</div></div>`:`
+    <div class="timeline">
+      ${TL_STEPS.map((s,i)=>{
+        const done=i<currentStep;const current=i===currentStep;
+        return `<div class="tl-step ${done?'done':''} ${current?'current':''}">
+          <div class="tl-dot">${done?'✓':s.icon}</div>
+          <div class="tl-label">${s.label}</div>
+          ${current?`<div class="tl-date">Now</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  const deliveryBanner=`
+    <div class="otc-delivery">
+      <div class="otcd-col"><div class="otcd-label">Delivery Method</div><div class="otcd-val" style="color:var(--gold)">${o.deliveryLabel||opt.label}<br><span style="color:var(--text3);font-size:11px">${o.deliveryDays||opt.days}</span></div></div>
+      <div class="otcd-col"><div class="otcd-label">Preferred Date</div><div class="otcd-val">${o.preferredDate?formatDate(o.preferredDate):'Not specified'}</div></div>
+      <div class="otcd-col"><div class="otcd-label">Delivery Address</div><div class="otcd-val">${o.addr1}<br>${o.city}, ${o.state}<br>PIN: ${o.pin}</div></div>
+    </div>`;
+
+  const actions=canCancel?`
+    <div class="otc-actions">
+      <button class="btn btn-ghost btn-sm" onclick="goShop()">Continue Shopping</button>
+      <button class="btn btn-danger" style="padding:9px 22px;font-size:10px" onclick="openCancel('${o.id}')">Cancel This Order</button>
+    </div>`:`
+    <div class="otc-actions">
+      <button class="btn btn-ghost btn-sm" onclick="goShop()">Continue Shopping</button>
+      ${o.status==='delivered'?`<button class="btn btn-ghost btn-sm" onclick="showStatic('returns')">Return / Exchange</button>`:''}
+    </div>`;
+
+  return `<div class="order-track-card" id="otc-${o.id}">
+    <div class="otc-header">
+      <div><div class="otc-id">${o.id}</div><div class="otc-date">Placed on ${o.date} · ${o.items.length} item${o.items.length>1?'s':''}</div></div>
+      <div><div class="otcd-label">Order Total</div><div class="otc-total">₹${o.total.toLocaleString('en-IN')}</div></div>
+    </div>
+    <div class="otc-body">
+      ${timeline}
+      ${deliveryBanner}
+      <div class="otc-items">
+        ${o.items.map(i=>`<div class="otc-item"><div><div class="otc-item-name">${i.name}</div><div class="otc-item-meta">Qty: ${i.qty}</div></div><div class="otc-item-price">₹${i.price.toLocaleString('en-IN')}</div></div>`).join('')}
+      </div>
+      ${actions}
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   CANCEL ORDER
+══════════════════════════════════════════════ */
+let cancelOrderId=null;
+function openCancel(id){
+  cancelOrderId=id;
+  const o=orders.find(x=>x.id===id);if(!o)return;
+  if(o.status!=='pending'&&o.status!=='confirmed'){showToast('This order cannot be cancelled — it has already been shipped.');return;}
+  document.getElementById('cancel-order-info').innerHTML=`<strong style="color:var(--text)">${o.id}</strong> &nbsp;·&nbsp; ${o.items.map(i=>i.name).join(', ')} &nbsp;·&nbsp; <span style="color:var(--gold)">₹${o.total.toLocaleString('en-IN')}</span>`;
+  document.getElementById('cancel-reason').value='';
+  document.getElementById('cancel-modal').classList.add('open');
+}
+function confirmCancel(){
+  const reason=document.getElementById('cancel-reason').value;
+  if(!reason){showToast('Please select a reason for cancellation');return;}
+  const o=orders.find(x=>x.id===cancelOrderId);
+  if(!o){document.getElementById('cancel-modal').classList.remove('open');return;}
+  o.status='cancelled';
+  o.cancelReason=document.getElementById('cancel-reason').options[document.getElementById('cancel-reason').selectedIndex].text;
+  document.getElementById('cancel-modal').classList.remove('open');
+  updateBadges();
+  showToast(`Order ${cancelOrderId} has been cancelled. Refund will be processed in 5–7 days.`);
+  // Refresh tracking results if visible
+  const q=document.getElementById('track-inp')?.value;
+  if(q)searchOrders();
+  cancelOrderId=null;
 }
 
 /* ══════════════════════════════════════════════
